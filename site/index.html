@@ -1,0 +1,1086 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"></head><body style="margin:0">
+<title>깃발 대항전 작전판</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#EDF0F3; --surface:#FFFFFF; --surface-2:#F4F6F8; --ink:#16202C; --ink-2:#4A5566; --ink-3:#6D7888;
+  --line:#D3D9E1; --line-2:#E3E7EC;
+  --y:#1D4EB0; --y-soft:#DCE6FA; --k:#B01E3C; --k-soft:#F8DCE2;
+  --gold:#9A6E0E; --gold-soft:#F6EACB; --wall:#2B3440; --board:#F8F9FB; --hot:#C2410C;
+  --display:"Black Han Sans","IBM Plex Sans KR","Apple SD Gothic Neo",sans-serif;
+  --body:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0E141C; --surface:#151D28; --surface-2:#1B2532; --ink:#E4E9F0; --ink-2:#A3AEBD; --ink-3:#7D8898;
+    --line:#2C3847; --line-2:#222C39;
+    --y:#5B8BF5; --y-soft:#1A2A4E; --k:#F2566F; --k-soft:#461A29;
+    --gold:#E0B24A; --gold-soft:#3A2F14; --wall:#3C4858; --board:#111922; --hot:#FB923C;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0E141C; --surface:#151D28; --surface-2:#1B2532; --ink:#E4E9F0; --ink-2:#A3AEBD; --ink-3:#7D8898;
+  --line:#2C3847; --line-2:#222C39;
+  --y:#5B8BF5; --y-soft:#1A2A4E; --k:#F2566F; --k-soft:#461A29;
+  --gold:#E0B24A; --gold-soft:#3A2F14; --wall:#3C4858; --board:#111922; --hot:#FB923C;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15.5px;line-height:1.7;padding-inline:16px;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-wrap:break-word}
+.wrap{max-width:1120px;margin-inline:auto}
+h1,h2,h3{text-wrap:balance;margin:0}
+h2{font-family:var(--display);font-weight:400;font-size:clamp(28px,4vw,38px);line-height:1.15;letter-spacing:.01em}
+h3{font-size:17px;font-weight:700;line-height:1.4}
+p{margin:0}
+code,.mono{font-family:var(--mono);font-size:.9em}
+a{color:var(--y)}
+:focus-visible{outline:2px solid var(--y);outline-offset:2px;border-radius:4px}
+.y{color:var(--y)} .k{color:var(--k)}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.muted{color:var(--ink-2)}
+.small{font-size:13.5px}
+
+/* nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);margin-inline:-16px;padding-inline:16px}
+.nav .wrap{display:flex;align-items:center;gap:20px;height:52px;overflow-x:auto;scrollbar-width:none}
+.nav .brand{font-family:var(--display);font-size:19px;white-space:nowrap;display:flex;gap:8px;align-items:center}
+.nav .brand i{display:inline-block;width:10px;height:18px;background:linear-gradient(var(--y) 50%,var(--k) 50%);border-radius:2px}
+.nav a.l{color:var(--ink-2);text-decoration:none;font-size:14px;white-space:nowrap;font-weight:500}
+.nav a.l:hover{color:var(--ink)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center;padding-block:56px 40px}
+.hero h1{font-family:var(--display);font-weight:400;font-size:clamp(52px,8vw,96px);line-height:1;letter-spacing:-.01em}
+.hero h1 .vs{display:block;font-family:var(--body);font-weight:600;font-size:15px;letter-spacing:.14em;margin-bottom:14px;color:var(--ink-2)}
+.hero h1 .vs b{font-weight:700}
+.hero .lead{font-size:18px;line-height:1.75;margin-top:22px;max-width:34em;color:var(--ink-2)}
+.hero .lead strong{color:var(--ink)}
+.specs{display:grid;grid-template-columns:repeat(4,1fr);margin-top:30px;border-top:2px solid var(--ink);max-width:560px}
+.specs div{padding:10px 12px 0 0}
+.specs b{display:block;font-family:var(--display);font-weight:400;font-size:28px;line-height:1.2;font-variant-numeric:tabular-nums}
+.specs span{font-size:12.5px;color:var(--ink-3)}
+.hero-board{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px}
+.hero-board .cap{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-size:12.5px;color:var(--ink-3);margin-top:10px;font-variant-numeric:tabular-nums}
+.hero-board .cap b{color:var(--ink);font-weight:600}
+canvas.board{display:block;width:100%;aspect-ratio:1;max-width:100%;border-radius:4px}
+
+/* sections */
+section.s{padding-block:64px;border-top:1px solid var(--line)}
+.s-head{display:grid;grid-template-columns:320px 1fr;gap:32px;margin-bottom:32px}
+.s-head .desc{max-width:62ch;color:var(--ink-2);font-size:16px}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(2,1fr)} .g3{grid-template-columns:repeat(3,1fr)} .g4{grid-template-columns:repeat(4,1fr)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px}
+.panel h3{margin-bottom:8px}
+.note{font-size:14px;color:var(--ink-2)}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line-2);vertical-align:top}
+th{font-size:12px;font-weight:600;color:var(--ink-3);letter-spacing:.06em;border-bottom:1px solid var(--line)}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+
+/* units */
+.unit{display:flex;flex-direction:column;gap:10px}
+.unit .top{display:flex;align-items:center;gap:12px}
+.unit .sym{width:44px;height:44px;border-radius:8px;display:grid;place-items:center;background:var(--surface-2);border:1px solid var(--line)}
+.unit .code{font-family:var(--mono);font-size:13px;color:var(--ink-3)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;border-top:1px solid var(--line-2);padding-top:10px}
+.stats div{font-size:12px;color:var(--ink-3)}
+.stats b{display:block;font-size:18px;color:var(--ink);font-variant-numeric:tabular-nums}
+
+/* pipeline */
+.pipe{display:grid;grid-template-columns:repeat(9,1fr);gap:6px;counter-reset:st}
+.pipe div{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 10px;font-size:13px;line-height:1.45;position:relative}
+.pipe div b{display:block;font-size:14px;margin-bottom:4px}
+.pipe div::before{counter-increment:st;content:counter(st);font-family:var(--display);font-size:22px;color:var(--ink-3);display:block;line-height:1;margin-bottom:6px}
+.pipe div.hi{border-color:var(--ink);box-shadow:inset 0 -3px 0 var(--gold)}
+.conseq{margin-top:20px}
+.conseq .panel{padding:16px 18px}
+.conseq .panel p{font-size:14px;color:var(--ink-2)}
+
+/* combat sim */
+.sim{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface)}
+.sim .in{padding:20px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:16px}
+.sim .out{padding:20px;background:var(--surface-2)}
+.side{display:grid;grid-template-columns:auto 1fr 1fr;gap:10px 14px;align-items:center}
+.side .t{font-weight:700;font-size:14px;min-width:70px}
+.step{display:flex;align-items:center;gap:6px}
+.step label{font-size:13px;color:var(--ink-2);min-width:48px}
+.step button{width:30px;height:30px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:6px;font-size:16px;cursor:pointer;line-height:1}
+.step button:hover{border-color:var(--ink-3)}
+.step output{min-width:22px;text-align:center;font-weight:700;font-variant-numeric:tabular-nums}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:7px;overflow:hidden}
+.seg button{border:0;background:var(--surface);color:var(--ink-2);padding:6px 12px;font:inherit;font-size:13px;cursor:pointer;border-right:1px solid var(--line)}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--surface)}
+.presets{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line);background:var(--surface);color:var(--ink-2);padding:4px 10px;border-radius:99px;font:inherit;font-size:12.5px;cursor:pointer}
+.chip:hover{color:var(--ink);border-color:var(--ink-3)}
+.log{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.log li{display:grid;grid-template-columns:34px 1fr;gap:10px;font-size:14px}
+.log li .tag{font-family:var(--mono);font-size:12px;color:var(--ink-3);padding-top:2px}
+.verdict{margin-top:16px;padding:12px 14px;border-radius:8px;border:1px solid var(--line);background:var(--surface);font-weight:600}
+
+/* buildings */
+.bld{display:flex;gap:14px}
+.glyph{flex:none;width:40px;height:40px;border-radius:6px;display:grid;place-items:center;font-weight:700;font-size:18px;background:var(--surface-2);border:1.5px solid var(--ink-3);color:var(--ink)}
+.bld h3{font-size:15.5px;margin-bottom:2px}
+.bld .code{font-family:var(--mono);font-size:11.5px;color:var(--ink-3);margin-left:6px;font-weight:400}
+.bld p{font-size:13.5px;color:var(--ink-2)}
+.bld p.when{margin-top:6px;font-size:12.5px;color:var(--ink-3)}
+
+/* bots */
+.bots{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.botcard{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;cursor:pointer;text-align:left;font:inherit;color:inherit;display:flex;flex-direction:column;gap:6px}
+.botcard:hover{border-color:var(--ink-3)}
+.botcard[aria-selected="true"]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.botcard .f{font-family:var(--mono);font-size:12px;color:var(--ink-3)}
+.botcard b{font-size:16px}
+.botcard .lvl{display:flex;gap:3px;margin-top:4px}
+.botcard .lvl i{width:18px;height:5px;border-radius:2px;background:var(--line)}
+.botcard .lvl i.on{background:var(--ink)}
+.botcard span.s{font-size:13px;color:var(--ink-2);line-height:1.5}
+.botdetail{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.botdetail ul{margin:0;padding-left:18px;font-size:14.5px;display:flex;flex-direction:column;gap:6px}
+.botdetail .pro li::marker{color:var(--y)}
+.botdetail .con li::marker{color:var(--k)}
+pre.code{font-family:var(--mono);font-size:12.5px;line-height:1.6;background:var(--surface-2);border:1px solid var(--line);border-radius:8px;padding:14px 16px;overflow-x:auto;margin:0;color:var(--ink)}
+pre.code .c{color:var(--ink-3)}
+pre.code .kw{color:var(--k)}
+pre.code .fn{color:var(--y)}
+.cmp td:first-child{font-weight:600;white-space:nowrap}
+.cmp td{min-width:140px}
+.cmp .yes{color:var(--ink)} .cmp .no{color:var(--ink-3)}
+
+/* codex */
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface)}
+.flow div{padding:18px;border-right:1px solid var(--line)}
+.flow div:last-child{border-right:0}
+.flow .n{font-family:var(--display);font-size:30px;line-height:1;color:var(--gold)}
+.flow h3{margin:8px 0 6px;font-size:15.5px}
+.flow p{font-size:13.5px;color:var(--ink-2)}
+.formula{font-family:var(--mono);font-size:14px;background:var(--surface-2);border-radius:8px;padding:12px 14px;overflow-x:auto;white-space:nowrap}
+.bonus{display:flex;flex-direction:column;gap:6px;margin-top:12px}
+.bonus .r{display:grid;grid-template-columns:70px 1fr 30px;gap:10px;align-items:center;font-size:13px}
+.bonus .bar{height:10px;border-radius:0 4px 4px 0;background:var(--ink-2)}
+.bonus .v{text-align:right;font-variant-numeric:tabular-nums;color:var(--ink-2)}
+.chart{width:100%;height:auto;display:block;overflow:visible}
+.chart text{fill:var(--ink-3);font-family:var(--body);font-size:11px}
+.chart .axis{stroke:var(--line);stroke-width:1}
+.chart .grid{stroke:var(--line-2);stroke-width:1}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--ink-2);margin-top:6px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:10px;height:10px;border-radius:50%;display:inline-block}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:2px solid var(--ink);margin-bottom:20px}
+.kpis div{padding:12px 12px 0 0}
+.kpis b{display:block;font-family:var(--display);font-weight:400;font-size:32px;line-height:1.15;font-variant-numeric:tabular-nums}
+.kpis span{font-size:13px;color:var(--ink-2)}
+
+/* replay */
+.rp{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:20px;align-items:start}
+.rp-board{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px;position:relative}
+.ctrl{display:flex;align-items:center;gap:8px;margin-top:12px;flex-wrap:wrap}
+.ctrl button.ic{width:36px;height:34px;border:1px solid var(--line);border-radius:7px;background:var(--surface);color:var(--ink);cursor:pointer;display:grid;place-items:center}
+.ctrl button.ic:hover{border-color:var(--ink-3)}
+.ctrl button.play{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.ctrl input[type=range]{flex:1;min-width:140px;accent-color:var(--ink)}
+.ctrl .tn{font-variant-numeric:tabular-nums;font-weight:600;min-width:86px;text-align:right;font-size:14px}
+select{font:inherit;font-size:14px;padding:7px 10px;border:1px solid var(--line);border-radius:7px;background:var(--surface);color:var(--ink);max-width:100%}
+.rp-side{display:flex;flex-direction:column;gap:14px}
+.score{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.score .tm{display:flex;flex-direction:column}
+.score .tm:last-child{text-align:right}
+.score .nm{font-size:12.5px;color:var(--ink-2)}
+.score .pt{font-family:var(--display);font-size:40px;line-height:1.1;font-variant-numeric:tabular-nums}
+.score .mid{font-size:12px;color:var(--ink-3);text-align:center}
+.mini{display:grid;grid-template-columns:auto 1fr 1fr;gap:4px 14px;font-size:13px;font-variant-numeric:tabular-nums}
+.mini .h{font-size:11.5px;color:var(--ink-3);font-weight:600}
+.mini .r{text-align:right}
+.cmds{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cmds pre{font-family:var(--mono);font-size:11.5px;line-height:1.55;max-height:190px;overflow:auto;margin:0;padding:10px;border-radius:8px;background:var(--surface-2);border:1px solid var(--line);white-space:pre}
+.cmds h4{margin:0 0 6px;font-size:12.5px}
+.events{font-size:13px;display:flex;flex-direction:column;gap:3px;max-height:120px;overflow:auto}
+.lg{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12px;color:var(--ink-2);margin-top:10px}
+.lg span{display:inline-flex;align-items:center;gap:5px}
+.tip{position:fixed;z-index:50;pointer-events:none;background:var(--ink);color:var(--surface);font-size:12.5px;line-height:1.5;padding:8px 10px;border-radius:7px;max-width:260px;box-shadow:0 6px 20px rgba(0,0,0,.2)}
+.rdesc{font-size:13.5px;color:var(--ink-2);margin-top:8px}
+.result{margin-block:12px 16px;padding:14px 18px;border-radius:10px;border:1px solid var(--line);background:var(--surface);display:flex;flex-wrap:wrap;gap:6px 18px;align-items:baseline}
+.result .big{font-family:var(--display);font-size:24px;line-height:1.2}
+.result .sub{font-size:13.5px;color:var(--ink-2)}
+.result.wy{border-color:var(--y);box-shadow:inset 4px 0 0 var(--y)}
+.result.wk{border-color:var(--k);box-shadow:inset 4px 0 0 var(--k)}
+.pill{width:26px;height:24px;border-radius:5px;display:inline-grid;place-items:center;font-size:12px;font-weight:700;border:1px solid var(--line);background:var(--surface-2);color:var(--ink-2)}
+.pill.py{background:var(--y-soft);color:var(--y);border-color:var(--y)}
+.pill.pk{background:var(--k-soft);color:var(--k);border-color:var(--k)}
+.pill.inst{text-decoration:underline;text-underline-offset:2px}
+.pill.cur{outline:2px solid var(--gold);outline-offset:1px}
+.loading{opacity:.45;transition:opacity .15s}
+.mine{margin-bottom:16px;background:var(--surface);border:1.5px dashed var(--line);border-radius:10px;padding:16px 18px}
+.mine.over{border-color:var(--y);background:var(--y-soft)}
+.mine-head{display:flex;justify-content:space-between;gap:12px 24px;flex-wrap:wrap;align-items:flex-start}
+.mine-head>div:first-child{flex:1 1 320px;max-width:66ch}
+.mine-head h3{font-size:15.5px;margin-bottom:4px}
+.mine-btns{display:flex;gap:8px;flex-wrap:wrap}
+.btn{font:inherit;font-size:14px;font-weight:600;padding:8px 14px;border-radius:7px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.btn:hover{border-color:var(--ink-3)}
+.btn.primary{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+#mineMsg:empty{display:none}
+#mineMsg{margin-top:10px}
+.mine-bar{display:flex;justify-content:space-between;align-items:baseline;margin-top:12px}
+.linkbtn{font:inherit;font-size:13px;background:none;border:0;color:var(--ink-2);text-decoration:underline;cursor:pointer;padding:0}
+.mine-tbl{max-height:280px;overflow:auto;margin-top:6px;border:1px solid var(--line-2);border-radius:8px}
+.mine-tbl table{min-width:560px}
+.mine-tbl thead th{position:sticky;top:0;background:var(--surface)}
+.mine-tbl tbody tr{cursor:pointer}
+.mine-tbl tbody tr:hover{background:var(--surface-2)}
+.mine-tbl tbody tr.on{background:var(--gold-soft)}
+.mine-tbl td{padding:7px 12px;vertical-align:middle}
+.mine-tbl td.y,.mine-tbl td.k{font-weight:600}
+.mine-tbl .sc{font-variant-numeric:tabular-nums;font-weight:600;margin-left:4px}
+.mine-tbl .fn{font-family:var(--mono);font-size:12px;word-break:break-all}
+
+/* ops */
+.tl{display:grid;grid-template-columns:repeat(5,1fr);border-top:2px solid var(--ink)}
+.tl div{padding:12px 12px 0 0;font-size:13.5px;color:var(--ink-2)}
+.tl b{display:block;font-size:15px;color:var(--ink)}
+footer{padding-block:40px 60px;border-top:1px solid var(--line);font-size:13px;color:var(--ink-3)}
+
+@media (max-width:980px){
+  .hero{grid-template-columns:1fr;gap:28px}
+  .pipe{grid-template-columns:repeat(3,1fr)}
+  .bots{grid-template-columns:repeat(2,1fr)}
+  .rp{grid-template-columns:1fr}
+  .g4{grid-template-columns:repeat(2,1fr)}
+  .flow{grid-template-columns:1fr 1fr}
+  .flow div:nth-child(2){border-right:0}
+  .flow div:nth-child(-n+2){border-bottom:1px solid var(--line)}
+}
+@media (max-width:720px){
+  .s-head{grid-template-columns:1fr;gap:10px}
+  .g2,.g3,.botdetail,.sim{grid-template-columns:1fr}
+  .sim .in{border-right:0;border-bottom:1px solid var(--line)}
+  .tl{grid-template-columns:1fr 1fr}
+  .kpis,.specs{grid-template-columns:1fr 1fr}
+  .cmds{grid-template-columns:1fr}
+}
+@media (max-width:460px){
+  .g4,.bots,.flow,.pipe{grid-template-columns:1fr}
+  .flow div{border-right:0;border-bottom:1px solid var(--line)}
+  .side{grid-template-columns:1fr 1fr}
+  .side .t{grid-column:1/-1}
+}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+
+<nav class="nav" aria-label="섹션">
+  <div class="wrap">
+    <span class="brand"><i></i>깃발 대항전</span>
+    <a class="l" href="#rules">규칙</a>
+    <a class="l" href="#turn">턴 순서</a>
+    <a class="l" href="#combat">전투·점령</a>
+    <a class="l" href="#buildings">건물</a>
+    <a class="l" href="#bots">봇 비교</a>
+    <a class="l" href="#codex">Codex 봇</a>
+    <a class="l" href="#replay">리플레이</a>
+    <a class="l" href="#ops">대회 일정</a>
+  </div>
+</nav>
+
+<main class="wrap">
+  <header class="hero">
+    <div>
+      <h1><span class="vs"><b class="y">YONSEI</b> · <b class="k">KOREA</b> · 2026 연고전 AI 해커톤</span>깃발 대항전</h1>
+      <p class="lead">15×15 캠퍼스 격자에서 <strong class="y">연세(Y)</strong>와 <strong class="k">고려(K)</strong>가 건물 17개를 두고 싸웁니다. 사람은 조작하지 않습니다. 매 턴 게임 상태를 읽고 <strong>300ms 안에 명령을 출력하는 봇</strong>끼리 160턴을 겨루고, 점령한 건물의 점수 합이 높은 쪽이 이깁니다.</p>
+      <div class="specs">
+        <div><b>15×15</b><span>점대칭 맵</span></div>
+        <div><b>160</b><span>턴 (동시 진행)</span></div>
+        <div><b>17</b><span>점령 대상 건물</span></div>
+        <div><b>300ms</b><span>턴당 제한 (첫 턴 3s)</span></div>
+      </div>
+    </div>
+    <figure class="hero-board" style="margin:0">
+      <canvas class="board" id="heroCanvas" aria-label="Codex 봇과 예제 lv2 봇의 실제 경기 재생"></canvas>
+      <figcaption class="cap"><span>실제 경기 재생 · <b class="y">Codex 봇</b> vs <b class="k">예제 lv2</b> · 시드 42</span><span id="heroTurn">턴 1</span></figcaption>
+    </figure>
+  </header>
+
+  <!-- RULES -->
+  <section class="s" id="rules">
+    <div class="s-head">
+      <div><p class="eyebrow">01 · 규칙</p><h2>게임 한눈에</h2></div>
+      <p class="desc">유닛에는 체력도 ID도 없습니다. <b>(칸, 팀, 병종) → 인원 수</b>로만 존재하고, 같은 팀은 한 칸에 무제한으로 겹칠 수 있습니다. 모든 유닛 위치와 양 팀 자원은 공개되고, 숨겨진 정보는 <b>건물 점수</b> 하나뿐입니다.</p>
+    </div>
+
+    <div class="grid g3">
+      <div class="panel unit">
+        <div class="top"><div class="sym"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><line x1="6" y1="3" x2="6" y2="23" stroke="currentColor" stroke-width="2"/><path d="M7 4h13l-3 5 3 5H7z" fill="var(--y)"/></svg></div><div><h3>깃발병</h3><span class="code">F · Flag</span></div></div>
+        <p class="note">유일하게 <b>점령</b>할 수 있는 병종. 싸우지 못하므로 적 전투병과 한 칸에 서면 전멸합니다.</p>
+        <div class="stats"><div><b>5</b>비용</div><div><b>1칸</b>이동</div><div><b>0</b>전투력</div><div><b>O</b>점령</div></div>
+      </div>
+      <div class="panel unit">
+        <div class="top"><div class="sym"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="9" fill="var(--k)"/></svg></div><div><h3>전투병</h3><span class="code">W · Warrior</span></div></div>
+        <p class="note">유일하게 <b>싸울 수 있는</b> 병종. 전투력 1 고정, 체력 없음. 전투는 인원 수 싸움입니다.</p>
+        <div class="stats"><div><b>3</b>비용</div><div><b>1칸</b>이동</div><div><b>1</b>전투력</div><div><b>X</b>점령</div></div>
+      </div>
+      <div class="panel unit">
+        <div class="top"><div class="sym"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M13 3l10 10-10 10L3 13z" fill="var(--ink-2)"/></svg></div><div><h3>정찰병</h3><span class="code">S · Scout</span></div></div>
+        <p class="note">2칸 이동(<code>MOVE2</code>)과 체비쇼프 거리 2 시야로 <b>숨은 건물 점수</b>를 밝힙니다. 유닛 위치는 원래 다 보입니다.</p>
+        <div class="stats"><div><b>2</b>비용</div><div><b>2칸</b>이동</div><div><b>0</b>전투력</div><div><b>X</b>점령</div></div>
+      </div>
+    </div>
+
+    <div class="grid g2" style="margin-top:16px">
+      <div class="panel">
+        <h3>맵과 점수</h3>
+        <ul class="note" style="margin:6px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:4px">
+          <li>좌표는 <code>x</code>=열, <code>y</code>=행 (0~14). 방향은 <code>U</code>(y−1) <code>D</code>(y+1) <code>L</code>(x−1) <code>R</code>(x+1).</li>
+          <li>맵은 중심 (7,7) 기준 <b>180° 점대칭</b>. 장애물 10쌍(20칸), 본진 간 맨해튼 거리 12 이상.</li>
+          <li>건물 17개 = 중앙광장 1(항상 3점) + 신촌·안암 각 5개(1~2점) + 중앙 6개(2~4점).</li>
+          <li>대칭 짝은 점수가 같습니다. 그래서 맵 총점은 항상 <b>홀수</b>이고, 한쪽 점수를 알면 반대쪽도 계산됩니다.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>자원</h3>
+        <ul class="note" style="margin:6px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:4px">
+          <li>시작 자원 <b>10</b>, 병력 없음, 모든 건물 중립.</li>
+          <li>매 턴 수입 <b>기본 10 + 학생회관 1개당 2</b>.</li>
+          <li>보유 상한 <b>40</b>. 넘치면 사라지므로 모아두기만 하면 손해입니다.</li>
+          <li>상대 자원 잔량도 매 턴 공개됩니다. 상대가 다음 턴에 전투병을 몇 명 뽑을 수 있는지 계산할 수 있습니다.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-top:16px">
+      <h3>승부 판정</h3>
+      <div class="grid g2" style="margin-top:6px">
+        <p class="note"><b>즉시 승리</b> · 상대가 가진 건물 점수 합이 <b>0</b>이고, 내 점수가 맵 총점의 <b>과반</b>이면 그 턴에 바로 이깁니다. 아래 리플레이의 경기 대부분이 이렇게 끝납니다.</p>
+        <p class="note"><b>160턴 종료</b> · ① 점령 점수 합 → ② 누적 점령-턴(매 턴 소유 점수를 더한 값) → ③ 생존 병력 환산(F 5, W 3, S 2) → ④ 무승부 순으로 비교합니다.</p>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-top:16px">
+      <h3>명령 형식</h3>
+      <p class="note" style="margin-bottom:10px">매 턴 여러 줄의 명령을 출력하고 마지막 줄에 <code>END</code>를 씁니다. 토큰 수가 하나라도 틀리면 그 줄만 무시되고, <code>END</code>나 flush를 빠뜨리면 몰수패입니다.</p>
+      <div class="tbl"><table>
+        <thead><tr><th>명령</th><th>뜻</th><th>주의할 점</th></tr></thead>
+        <tbody>
+          <tr><td><code>SPAWN F 2</code></td><td>본진에서 깃발병 2명 생산</td><td>본진 생산은 좌표를 생략. 좌표를 주면 내 병원에서만 유효</td></tr>
+          <tr><td><code>MOVE 3 4 W 5 D</code></td><td>(3,4)의 전투병 5명을 아래로 1칸</td><td>같은 칸의 병력을 여러 방향으로 나눠 보낼 수 있음</td></tr>
+          <tr><td><code>MOVE2 3 4 S 1 R D</code></td><td>정찰병 2칸 이동</td><td>경유 칸에서는 전투 없음, 도착 칸만 판정</td></tr>
+          <tr><td><code>TELE 0 14 W 5 7 9</code></td><td>내 역 → 내 역 순간이동</td><td>역 2개 이상 보유, 턴당 1회, 최대 5명</td></tr>
+          <tr><td><code>PRIORITY 7 7 4 10</code></td><td>자원이 모자랄 때 점령 순서</td><td>생략하면 점수 높은 순 → 본진 기준 좌표 사전순</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <!-- TURN -->
+  <section class="s" id="turn">
+    <div class="s-head">
+      <div><p class="eyebrow">02 · 턴 순서</p><h2>한 턴은 이 순서로 처리된다</h2></div>
+      <p class="desc">양 팀의 명령은 동시에 적용됩니다. 규칙서가 "전략의 핵심"이라고 강조하는 부분이 이 처리 순서입니다. 강조 표시한 단계에서 샘플 봇들의 계산이 가장 많이 갈립니다.</p>
+    </div>
+    <div class="pipe">
+      <div><b>명령 수신</b>시간 초과면 즉시 몰수패</div>
+      <div class="hi"><b>생산</b>SPAWN 검증, 자원 차감</div>
+      <div class="hi"><b>이동</b>MOVE·MOVE2·TELE 동시 적용</div>
+      <div class="hi"><b>전투</b>양 팀이 겹친 모든 칸</div>
+      <div><b>건물 효과</b>소유권 기준으로 기능 갱신</div>
+      <div class="hi"><b>수입</b>10 + 학생회관, 상한 40</div>
+      <div class="hi"><b>점령</b>살아남은 깃발병 기준</div>
+      <div><b>정보 공개</b>시야·방송국·유닛 진입</div>
+      <div><b>승리 판정</b>즉시 승리, 160턴 판정</div>
+    </div>
+    <div class="grid g4 conseq">
+      <div class="panel"><h3>뽑은 턴에 바로 움직인다</h3><p>생산(2)이 이동(3)보다 먼저라서, 본진에서 나온 병력이 같은 턴에 한 칸 나갑니다.</p></div>
+      <div class="panel"><h3>전투가 점령보다 먼저</h3><p>건물 위 깃발병이 전투에서 죽으면 그 턴 점령은 없습니다.</p></div>
+      <div class="panel"><h3>이번 수입으로 점령비를 낸다</h3><p>수입(6)이 점령(7)보다 먼저입니다. 단 생산은 수입 전이라 지난 턴까지 모은 돈만 씁니다.</p></div>
+      <div class="panel"><h3>이동 중 충돌은 없다</h3><p>서로 자리를 맞바꾸는 이동은 둘 다 성공합니다. 전투는 도착한 칸에서만 일어납니다.</p></div>
+    </div>
+  </section>
+
+  <!-- COMBAT -->
+  <section class="s" id="combat">
+    <div class="s-head">
+      <div><p class="eyebrow">03 · 전투와 점령</p><h2>숫자가 전부인 전투</h2></div>
+      <p class="desc">전투병끼리 적은 쪽 수만큼 서로 지우고(C1), 전투병이 남은 팀이 상대 깃발병·정찰병을 전부 지웁니다(C2). 그다음 살아남은 깃발병이 점령을 진행합니다. 한 칸에서 무슨 일이 일어나는지 직접 바꿔 보세요.</p>
+    </div>
+
+    <div class="sim">
+      <div class="in">
+        <div class="side">
+          <span class="t y">연세 (Y)</span>
+          <div class="step"><label for="yF">깃발병</label><button type="button" data-k="yF" data-d="-1" aria-label="연세 깃발병 감소">−</button><output id="yF">1</output><button type="button" data-k="yF" data-d="1" aria-label="연세 깃발병 증가">+</button></div>
+          <div class="step"><label for="yW">전투병</label><button type="button" data-k="yW" data-d="-1" aria-label="연세 전투병 감소">−</button><output id="yW">2</output><button type="button" data-k="yW" data-d="1" aria-label="연세 전투병 증가">+</button></div>
+        </div>
+        <div class="side">
+          <span class="t k">고려 (K)</span>
+          <div class="step"><label for="kF">깃발병</label><button type="button" data-k="kF" data-d="-1" aria-label="고려 깃발병 감소">−</button><output id="kF">0</output><button type="button" data-k="kF" data-d="1" aria-label="고려 깃발병 증가">+</button></div>
+          <div class="step"><label for="kW">전투병</label><button type="button" data-k="kW" data-d="-1" aria-label="고려 전투병 감소">−</button><output id="kW">1</output><button type="button" data-k="kW" data-d="1" aria-label="고려 전투병 증가">+</button></div>
+        </div>
+        <div>
+          <p class="small muted" style="margin-bottom:6px">이 칸의 건물 소유자</p>
+          <div class="seg" id="ownSeg" role="group" aria-label="건물 소유자">
+            <button type="button" data-o="N" aria-pressed="false">중립</button>
+            <button type="button" data-o="Y" aria-pressed="false">연세</button>
+            <button type="button" data-o="K" aria-pressed="true">고려</button>
+            <button type="button" data-o="-" aria-pressed="false">건물 아님</button>
+          </div>
+        </div>
+        <div>
+          <p class="small muted" style="margin-bottom:6px">규칙서 예시 불러오기</p>
+          <div class="presets">
+            <button type="button" class="chip" data-p="1,2,0,1,N">호위가 이긴다</button>
+            <button type="button" class="chip" data-p="1,1,1,1,N">경합</button>
+            <button type="button" class="chip" data-p="1,0,0,1,Y">깃발 뽑힘</button>
+            <button type="button" class="chip" data-p="1,2,1,0,K">수비 깃발 제거 + 즉시 점령</button>
+            <button type="button" class="chip" data-p="1,0,0,0,K">빈 적 건물</button>
+          </div>
+        </div>
+      </div>
+      <div class="out" aria-live="polite">
+        <p class="eyebrow" style="margin-bottom:10px">판정</p>
+        <ol class="log" id="simLog"></ol>
+        <div class="verdict" id="simVerdict"></div>
+      </div>
+    </div>
+
+    <div class="grid g2" style="margin-top:16px">
+      <div class="panel">
+        <h3>점령 비용과 단계</h3>
+        <div class="tbl"><table>
+          <thead><tr><th>대상</th><th>처리</th><th class="num">비용</th></tr></thead>
+          <tbody>
+            <tr><td>중립 건물</td><td>즉시 내 소유</td><td class="num">2</td></tr>
+            <tr><td>상대 건물</td><td>1단계 중립화 → 다음 턴 이후 2단계 소유</td><td class="num">2 + 2</td></tr>
+            <tr><td>중앙광장</td><td>같은 구조, 단계마다</td><td class="num">4</td></tr>
+            <tr><td>도서관 보유 시</td><td>단계마다 −1 (최소 1, 중첩 없음)</td><td class="num">−1</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+      <div class="panel">
+        <h3>알아둘 예외</h3>
+        <ul class="note" style="margin:6px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:5px">
+          <li>별도 점령 명령은 없습니다. 건물 위에 깃발병이 살아 있고 돈이 있으면 자동으로 진행됩니다.</li>
+          <li>깃발은 깃발병이 떠나도 유지됩니다. 반대로 <b>내 건물 위의 내 깃발병이 죽으면</b> 건물이 바로 중립이 됩니다.</li>
+          <li>그래서 점령을 마친 깃발병은 건물에서 비켜 서는 편이 안전합니다. Codex 봇이 실제로 이렇게 합니다.</li>
+          <li>깃발병 수와 상관없이 비용은 건물당 한 단계분입니다. 돈이 모자라면 깃발병은 제자리에서 기다립니다.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- BUILDINGS -->
+  <section class="s" id="buildings">
+    <div class="s-head">
+      <div><p class="eyebrow">04 · 건물</p><h2>건물 8종과 효과 시점</h2></div>
+      <p class="desc">기능은 소유 중일 때만 켜집니다. 효과가 어느 단계의 소유권으로 판정되는지가 건물마다 다르므로, 봇은 그 시점에 맞춰 계산해야 합니다. 아이콘 글자는 아래 리플레이 맵에서도 같게 쓰입니다.</p>
+    </div>
+    <div class="grid g4" id="bldGrid"></div>
+  </section>
+
+  <!-- BOTS -->
+  <section class="s" id="bots">
+    <div class="s-head">
+      <div><p class="eyebrow">05 · 봇 비교</p><h2>샘플 봇 4종의 전략</h2></div>
+      <p class="desc">폴더에 있는 코드는 네 가지 수준입니다. C++ 템플릿은 뼈대, lv1·lv2는 공식 예제(Python과 C++가 같은 로직), Codex 봇은 <code>py_sample/strategy.py</code>에 작성되어 <code>out/koyeon-bot.zip</code>으로 묶인 제출본입니다. 카드를 눌러 자세히 보세요.</p>
+    </div>
+    <div class="bots" role="tablist" id="botTabs"></div>
+    <div class="panel" id="botDetail" role="tabpanel"></div>
+
+    <div class="panel" style="margin-top:16px">
+      <h3>무엇이 다른가</h3>
+      <div class="tbl"><table class="cmp">
+        <thead><tr><th></th><th>C++ 템플릿</th><th>예제 lv1</th><th>예제 lv2</th><th>Codex 봇</th></tr></thead>
+        <tbody>
+          <tr><td>생산</td><td>돈이 5 이상이면 깃발병 1</td><td>점령비 남기고 전부 깃발병</td><td>전투병 3명 유지 + 나머지 깃발병</td><td>깃발병 최대 8명, 남은 돈 전부 전투병</td></tr>
+          <tr><td>깃발병 목표</td><td>없음 (첫 통행 가능 방향)</td><td>가장 가까운 <b>중립</b> 건물</td><td>가장 가까운 비소유 건물 (적 깃발 칸 제외)</td><td>가치÷거리로 건물마다 1명씩 분산 배정</td></tr>
+          <tr><td>전투병</td><td class="no">없음</td><td class="no">없음</td><td>가장 가까운 적 깃발병 추격</td><td>적 깃발 제거·방어·호위 임무에 "적+1명" 배정</td></tr>
+          <tr><td>건물 점수 사용</td><td class="no">안 씀</td><td class="no">안 씀</td><td class="no">안 씀</td><td>공개 점수, 대칭 짝, 지역 평균으로 추정</td></tr>
+          <tr><td>위험 회피</td><td class="no">없음</td><td class="no">없음</td><td class="no">없음</td><td>적 전투병 도달 범위 + 적 생산 가능량 위험 지도</td></tr>
+          <tr><td>병원·역·PRIORITY</td><td class="no">안 씀</td><td class="no">안 씀</td><td class="no">안 씀</td><td>병원 전방 생산, 역 순간이동, 가치순 PRIORITY</td></tr>
+          <tr><td>코드 규모</td><td>24줄</td><td>22줄</td><td>56줄</td><td>348줄</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <!-- CODEX -->
+  <section class="s" id="codex">
+    <div class="s-head">
+      <div><p class="eyebrow">06 · Codex 봇 해부</p><h2>BattleBot이 한 턴에 하는 일</h2></div>
+      <p class="desc"><code>strategy.py</code>의 <code>BattleBot.decide()</code>는 매 턴 아래 네 단계를 차례로 실행합니다. 상대의 다음 수를 탐색하지는 않습니다. 공개 정보로 위험을 추정하고 점수를 매기는 휴리스틱 봇입니다. 첫 턴에 모든 칸 쌍의 최단 거리를 미리 계산해 둡니다.</p>
+    </div>
+
+    <div class="flow">
+      <div><span class="n">1</span><h3>깃발병 목표 배정</h3><p>깃발병 한 명마다 서로 다른 건물을 고릅니다. 효용 = 가치 ÷ (거리 + 3 + 위험 지연). 지난 턴 목표면 ×1.22를 줘서 목표가 매 턴 바뀌며 왕복하는 것을 막습니다.</p></div>
+      <div><span class="n">2</span><h3>점령비 예약, 깃발병 생산</h3><p>이번 턴 도착할 건물들의 점령비 합에서 점령 전 수입 10을 뺀 만큼 남깁니다. 깃발병은 8명까지, 턴당 1명(초반 3턴은 2명). 본진과 내 병원 중 더 유리한 곳에서 뽑습니다.</p></div>
+      <div><span class="n">3</span><h3>전투병 임무</h3><p>적 깃발병 제거, 위협받는 내 건물 방어, 깃발병 경로 호위, 20턴 이후 적 본진·병원 압박. 각 임무에 "위협 + 1명"을 배정하고, 남은 돈은 <b>전부 전투병</b>으로 뽑습니다.</p></div>
+      <div><span class="n">4</span><h3>안전 경로와 마무리</h3><p>전투병이 실제로 도착할 위치를 반영해 깃발병 경로를 다시 계산합니다. 위험하면 안전한 칸으로 비키고, 점령한 건물 위에서는 옆으로 빠집니다. 끝으로 가치순 PRIORITY를 출력합니다.</p></div>
+    </div>
+
+    <div class="grid g2" style="margin-top:16px">
+      <div class="panel">
+        <h3>건물 가치 함수</h3>
+        <p class="note" style="margin-bottom:10px">점수 3배에 "경제 보너스"를 더합니다. 보너스는 50턴까지 전부 반영되다가 130턴에 0이 됩니다. 후반에는 점수만 봅니다.</p>
+        <div class="formula">value = 3 × score + w(turn) × bonus[type]</div>
+        <div class="formula" style="margin-top:6px">w(turn) = clamp((130 − turn) / 80, 0, 1)</div>
+        <div class="bonus" id="bonusBars"></div>
+        <p class="small muted" style="margin-top:10px">공학관을 이미 가졌으면 두 번째는 3, 도서관이 있으면 두 번째는 0, 받은 보급소는 0으로 줄입니다. 효과가 겹치지 않는 규칙을 반영한 것입니다.</p>
+      </div>
+      <div class="panel">
+        <h3>경제 보너스 가중치 w(turn)</h3>
+        <p class="note">턴에 따라 건물 기능을 얼마나 쳐주는지. 마우스를 올리면 값이 나옵니다.</p>
+        <svg class="chart" id="econChart" viewBox="0 0 520 220" role="img" aria-label="턴별 경제 보너스 가중치. 1턴부터 50턴까지 1, 이후 선형 감소해 130턴에 0"></svg>
+      </div>
+    </div>
+
+    <div class="grid g2" style="margin-top:16px">
+      <div class="panel">
+        <h3>위험 지도</h3>
+        <ul class="note" style="margin:6px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:5px">
+          <li>적 전투병이 있는 칸과 그 상하좌우 칸에 인원 수만큼 위협을 더합니다. 다음 턴에 한 칸 움직일 수 있기 때문입니다.</li>
+          <li>적 본진과 적 병원 주변에는 <code>상대 자원 ÷ 전투병 비용</code>만큼 더합니다. 상대가 이번 턴에 뽑아 바로 한 칸 내보낼 수 있는 인원입니다.</li>
+          <li>깃발병 경로는 다익스트라로 찾습니다. 위험한 칸은 <code>12 + 2 × min(30, 위험)</code>의 추가 비용이 붙어 돌아갑니다.</li>
+          <li>숨은 점수(−1)는 대칭 짝의 공개 점수를 쓰고, 그것도 없으면 중앙 3점, 외곽 1.5점으로 봅니다. 모든 유닛이 보이므로 정찰병은 뽑지 않습니다.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>로컬 벤치마크 (out/benchmark.json)</h3>
+        <div class="kpis">
+          <div><b>40 / 40</b><span>승리 (lv1·lv2, 시드 0~9, 양 진영)</span></div>
+          <div><b>40</b><span>경기 전부 즉시 승리</span></div>
+          <div><b>50턴</b><span>평균 종료 (23~110)</span></div>
+          <div><b>1.1ms</b><span>평균 계산 시간 (최대 14ms)</span></div>
+        </div>
+        <svg class="chart" id="benchChart" viewBox="0 0 520 150" role="img" aria-label="40경기의 종료 턴 분포"></svg>
+        <div class="legend"><span><i style="background:var(--y)"></i>연세(Y)로 출전</span><span><i style="background:var(--k)"></i>고려(K)로 출전</span></div>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-top:16px">
+      <h3>한계와 개선할 곳</h3>
+      <div class="grid g2" style="margin-top:6px">
+        <ul class="note" style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px">
+          <li>벤치마크 상대는 공식 예제뿐입니다. README도 <b>예제 lv2와 대회 사이트의 '중' 봇이 같은지 확인되지 않았다</b>고 적어 두었습니다. 수료 기준은 '중' 봇 상대 10경기 중 6승입니다.</li>
+          <li>남은 돈을 모두 전투병으로 바꾸므로, 전투병을 대량으로 모으는 상대와는 1:1 상쇄 물량전이 됩니다. README가 꼽은 개선점도 전투병 장기 집결과 여러 전선 배분입니다.</li>
+        </ul>
+        <ul class="note" style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px">
+          <li>자가 대전(시드 0)은 160턴까지 가서 17:15로 끝납니다. 비슷한 상대끼리는 즉시 승리가 잘 나오지 않고, 누적 점령-턴 같은 동점 기준이 중요해집니다.</li>
+          <li>방송국 보너스가 1이라 거의 노리지 않고, 정찰병도 쓰지 않습니다. 추정 점수가 틀린 맵에서는 목표 선택이 어긋날 수 있습니다.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- REPLAY -->
+  <section class="s" id="replay">
+    <div class="s-head">
+      <div><p class="eyebrow">07 · 리플레이</p><h2>실제 경기 돌려보기</h2></div>
+      <p class="desc"><code>dev_tools/battle.py</code>로 돌린 경기를 불러와 재생합니다. <code>--replay 폴더</code>로 저장한 폴더를 열면 안의 경기가 모두 목록에 뜹니다. 불러오기 전에는 예시 경기(Codex 봇 vs 예제 lv2)를 보여줍니다. 관전자 시점이라 숨은 점수도 모두 보입니다.</p>
+    </div>
+
+
+    <div class="mine" id="mine">
+      <div class="mine-head">
+        <div>
+          <h3>내 리플레이 열기</h3>
+          <p class="small muted"><code>battle.py --replay 폴더</code>로 저장한 경기를 불러옵니다. 폴더를 고르면 안의 경기가 모두 목록에 뜹니다. 여기로 끌어다 놓아도 됩니다. 파일은 이 브라우저 안에서만 읽고 어디에도 올리지 않습니다.</p>
+        </div>
+        <div class="mine-btns">
+          <button type="button" class="btn primary" id="pickDir">폴더 열기</button>
+          <button type="button" class="btn" id="pickFiles">파일 열기</button>
+          <input type="file" id="dirInput" webkitdirectory multiple hidden>
+          <input type="file" id="fileInput" accept=".json,application/json" multiple hidden>
+        </div>
+      </div>
+      <p class="small" id="mineMsg" aria-live="polite"></p>
+      <div id="mineList" hidden>
+        <div class="mine-bar"><span class="small muted" id="mineCount"></span><button type="button" class="linkbtn" id="mineClear">목록 비우기</button></div>
+        <div class="tbl mine-tbl"><table>
+          <thead><tr><th class="num">시드</th><th>연세</th><th>고려</th><th>결과</th><th>방식</th><th>파일</th></tr></thead>
+          <tbody id="mineBody"></tbody>
+        </table></div>
+      </div>
+    </div>
+
+    <div class="result" id="rpResult" aria-live="polite"></div>
+
+    <div class="rp">
+      <div class="rp-board">
+        <p class="rdesc" id="rpDesc" style="margin-top:0"></p>
+        <canvas class="board" id="rpCanvas" style="margin-top:12px" aria-label="리플레이 맵"></canvas>
+        <div class="ctrl">
+          <button type="button" class="ic" id="bFirst" aria-label="처음으로"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M2 2v10M12 2 5 7l7 5z" fill="currentColor" stroke="currentColor" stroke-width="1.6"/></svg></button>
+          <button type="button" class="ic" id="bPrev" aria-label="이전 턴"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M10 2 3 7l7 5z" fill="currentColor"/></svg></button>
+          <button type="button" class="ic play" id="bPlay" aria-label="재생"><svg width="14" height="14" viewBox="0 0 14 14" id="playIcon"><path d="M3 1.5v11l9-5.5z" fill="currentColor"/></svg></button>
+          <button type="button" class="ic" id="bNext" aria-label="다음 턴"><svg width="14" height="14" viewBox="0 0 14 14"><path d="m4 2 7 5-7 5z" fill="currentColor"/></svg></button>
+          <input type="range" id="rpRange" min="0" max="0" value="0" aria-label="턴 이동">
+          <span class="tn" id="rpTurn">턴 1 / 1</span>
+          <select id="rpSpeed" aria-label="재생 속도"><option value="400">느리게</option><option value="180" selected>보통</option><option value="70">빠르게</option></select>
+        </div>
+        <div class="lg">
+          <span><svg width="14" height="14"><rect x="1" y="1" width="12" height="12" rx="2" fill="var(--wall)"/></svg>장애물</span>
+          <span><svg width="14" height="14"><rect x="1" y="3" width="10" height="8" fill="var(--y)"/><line x1="1" y1="1" x2="1" y2="13" stroke="var(--ink)" stroke-width="1.5"/></svg>깃발병</span>
+          <span><svg width="14" height="14"><circle cx="7" cy="7" r="6" fill="var(--y)"/></svg>전투병</span>
+          <span><svg width="14" height="14"><path d="M7 1l6 6-6 6-6-6z" fill="var(--y)"/></svg>정찰병</span>
+          <span><svg width="14" height="14"><rect x="1.5" y="1.5" width="11" height="11" fill="none" stroke="var(--hot)" stroke-width="2" stroke-dasharray="3 2"/></svg>이번 턴 전투</span>
+          <span><svg width="14" height="14"><rect x="1.5" y="1.5" width="11" height="11" fill="none" stroke="var(--gold)" stroke-width="2.5"/></svg>점령·중립화</span>
+        </div>
+      </div>
+      <div class="rp-side">
+        <div class="score">
+          <div class="tm"><span class="nm" id="nmY">Y</span><span class="pt y" id="ptY">0</span></div>
+          <div class="mid">건물 점수<br><span id="total"></span></div>
+          <div class="tm"><span class="nm" id="nmK">K</span><span class="pt k" id="ptK">0</span></div>
+        </div>
+        <div class="panel" style="padding:14px 16px">
+          <div class="mini" id="miniStats"></div>
+        </div>
+        <div class="panel" style="padding:14px 16px">
+          <h3 style="font-size:14px;margin-bottom:4px">점수 흐름</h3>
+          <svg class="chart" id="scoreChart" viewBox="0 0 420 150" role="img" aria-label="턴별 건물 점수"></svg>
+          <div class="legend"><span><i style="background:var(--y)"></i><span id="lgY">Y</span></span><span><i style="background:var(--k)"></i><span id="lgK">K</span></span><span class="muted">차트를 누르면 그 턴으로 이동</span></div>
+        </div>
+        <div class="panel" style="padding:14px 16px">
+          <h3 style="font-size:14px;margin-bottom:6px">이번 턴 이벤트</h3>
+          <div class="events" id="evList"></div>
+        </div>
+        <div class="cmds">
+          <div><h4 class="y" id="cmdHY">Y 명령</h4><pre id="cmdY"></pre></div>
+          <div><h4 class="k" id="cmdHK">K 명령</h4><pre id="cmdK"></pre></div>
+        </div>
+        <p class="small muted">PRIORITY 줄은 길어서 생략했습니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- OPS -->
+  <section class="s" id="ops">
+    <div class="s-head">
+      <div><p class="eyebrow">08 · 대회 운영</p><h2>일정과 평가</h2></div>
+      <p class="desc">리더보드는 하루 두 번(10:00, 22:00) 갱신되는 참고용입니다. 최종 순위는 마감 후 반대 진영의 모든 팀과 1경기씩 치른 <b>승점률</b>(승 1, 무 0.5)로 정합니다. 상위 7팀에 더 많이 들어간 학교가 대항전에서 이깁니다.</p>
+    </div>
+    <div class="tl">
+      <div><b>9/27 15:00</b>에이전트 제출 시작</div>
+      <div><b>매일 08:00·20:00</b>리더보드 반영 마감</div>
+      <div><b>10/1 15:00</b>리더보드 반영 최종 마감</div>
+      <div><b>10/1 23:00</b>파일 제출 마감</div>
+      <div><b>10/1 23:59</b>최종 코드 선택·보고서 마감</div>
+    </div>
+    <div class="grid g2" style="margin-top:24px">
+      <div class="panel">
+        <h3>보고서 배점 (100점)</h3>
+        <div class="tbl"><table>
+          <tbody>
+            <tr><td>개발 과정 · 문제 인식, 변경 근거, 정량 검증</td><td class="num"><b>30</b></td></tr>
+            <tr><td>유닛 운용 전략 · 병종 역할, 생산 비율과 시점</td><td class="num">20</td></tr>
+            <tr><td>구역별 운영 전략 · 점령·방어·공격 방침</td><td class="num">20</td></tr>
+            <tr><td>핵심 전략 요약</td><td class="num">15</td></tr>
+            <tr><td>보고서 완성도</td><td class="num">10</td></tr>
+            <tr><td>소감</td><td class="num">5</td></tr>
+          </tbody>
+        </table></div>
+        <p class="small muted" style="margin-top:8px">LLM을 썼다면 모델 정보, 입력한 프롬프트, 사용 목적과 범위를 반드시 적어야 합니다. 사용 자체는 감점이 아닙니다.</p>
+      </div>
+      <div class="panel">
+        <h3>실행 제한과 꼭 챙길 것</h3>
+        <ul class="note" style="margin:6px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:5px">
+          <li>Python 3.12.14 (NumPy 2.3.3) 또는 C++20 (GCC 12.2.0). ZIP 최상위에 <code>submission.json</code>과 <code>main.py</code>/<code>main.cpp</code>.</li>
+          <li>메모리 384MiB, 턴당 출력 64KiB·4,096줄, stderr 경기당 1MiB, ZIP 5MiB.</li>
+          <li>업로드만으로는 평가에 쓰이지 않습니다. <b>평가에 사용할 코드를 직접 선택</b>해야 합니다.</li>
+          <li>수료 기준: 모의 전투에서 '중' 봇 상대 10경기 중 <b>6승 이상</b> (무승부는 승리로 안 셈).</li>
+          <li>가장 흔한 몰수 사유는 <code>END</code> 누락과 flush 누락. 스타터 킷의 <code>run()</code>이 둘 다 처리합니다.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    출처: <code>해커톤.pdf</code>(운영 규칙·게임 규칙서), <code>py_sample/</code>, <code>cpp_sample/</code>, <code>out/</code>의 벤치마크와 제출 ZIP. 리플레이는 <code>dev_tools/bots/dist/starter/play_local.py</code>로 2026-09-27에 생성했습니다.
+  </footer>
+</main>
+
+<div class="tip" id="tip" hidden></div>
+
+<script>
+const HERO={"seed":42,"terrain":["..............B","...H#.#........",".#..B..B.......","...............","....#...#.BB...",".......B#....#.",".....#B......#B",".#.....B.....#.","B#......B#.....",".#....#B.......","...BB.#...#....","...............",".......B..B..#.","........#.#H...","B.............."],"buildings":[[7,7,"PLAZA",3],[4,10,"HALL",1],[10,4,"HALL",1],[0,8,"LIBRARY",1],[14,6,"LIBRARY",1],[4,2,"ENG",2],[10,12,"ENG",2],[3,10,"HOSPITAL",1],[11,4,"HOSPITAL",1],[0,14,"STATION",1],[14,0,"STATION",1],[7,5,"STATION",2],[7,9,"STATION",2],[6,6,"WATCH",2],[8,8,"WATCH",2],[7,12,"DEPOT",3],[7,2,"DEPOT",3]],"bases":{"Y":[3,1],"K":[11,13]},"result":{"winner":"Y","reason":"instant","score":{"Y":27,"K":0},"turns":33,"seed":42},"turns":[{"r":[10,14],"u":[["YF",3,2,2],["KW",11,13,2]],"o":"NNNNNNNNNNNNNNNNN","oc":[0,0],"e":[],"c":[["SPAWN F 1","SPAWN F 1","MOVE 3 1 F 2 D"],["SPAWN W 2"]]},{"r":[8,16],"u":[["YF",3,2,2],["YF",4,2,2],["KF",11,13,1],["KW",11,12,2],["KW",11,13,1]],"o":"NNNNNYNNNNNNNNNNN","oc":[2,0],"e":[["p",4,2,"Y"]],"c":[["SPAWN F 1","SPAWN F 1","MOVE 3 2 F 2 R","MOVE 3 1 F 2 D"],["SPAWN W 1","SPAWN F 1","MOVE 11 13 W 2 U"]]},{"r":[11,16],"u":[["YF",3,2,1],["YF",5,2,1],["YF",3,3,2],["YF",4,3,1],["YW",3,2,1],["KF",11,12,1],["KF",11,13,2],["KW",11,11,2],["KW",11,12,1]],"o":"NNNNNYNNNNNNNNNNN","oc":[4,0],"e":[],"c":[["SPAWN F 1","SPAWN W 1","MOVE 3 1 W 1 D","MOVE 4 2 F 1 R","MOVE 4 2 F 1 D","MOVE 3 2 F 2 D","MOVE 3 1 F 1 D"],["SPAWN F 2","MOVE 11 12 W 2 U","MOVE 11 13 W 1 U","MOVE 11 13 F 1 U"]]},{"r":[10,14],"u":[["YF",3,2,1],["YF",6,2,1],["YF",3,3,1],["YF",4,3,1],["YF",5,3,1],["YF",3,4,1],["YW",3,2,3],["YW",3,3,1],["KF",10,12,1],["KF",11,12,2],["KF",11,13,2],["KW",11,10,2],["KW",11,11,1]],"o":"NNNNNYKNNNNNNNNNN","oc":[6,2],"e":[["p",10,12,"K"]],"c":[["SPAWN F 1","SPAWN W 3","MOVE 3 2 W 1 D","MOVE 3 1 W 3 D","MOVE 5 2 F 1 R","MOVE 3 2 F 1 D","MOVE 4 3 F 1 R","MOVE 3 3 F 1 D","MOVE 3 3 F 1 R","MOVE 3 1 F 1 D"],["SPAWN F 2","MOVE 11 11 W 2 U","MOVE 11 12 W 1 U","MOVE 11 12 F 1 L","MOVE 11 13 F 2 U"]]},{"r":[24,14],"u":[["YF",3,2,1],["YF",7,2,1],["YF",3,3,1],["YF",5,3,1],["YF",6,3,1],["YF",3,4,1],["YF",3,5,1],["YW",3,2,2],["YW",3,3,3],["YW",3,4,1],["KF",9,12,1],["KF",10,12,2],["KF",11,12,2],["KF",11,13,2],["KW",11,9,2],["KW",11,10,1]],"o":"NNNNNYKNNNNNNNNNY","oc":[11,4],"e":[["p",7,2,"Y"]],"c":[["SPAWN F 1","SPAWN W 2","MOVE 3 3 W 1 D","MOVE 3 2 W 3 D","MOVE 3 1 W 2 D","MOVE 6 2 F 1 R","MOVE 5 3 F 1 R","MOVE 3 2 F 1 D","MOVE 4 3 F 1 R","MOVE 3 3 F 1 D","MOVE 3 4 F 1 D","MOVE 3 1 F 1 D"],["SPAWN F 2","MOVE 11 10 W 2 U","MOVE 11 11 W 1 U","MOVE 10 12 F 1 L","MOVE 11 12 F 2 L","MOVE 11 13 F 2 U"]]},{"r":[11,14],"u":[["YF",3,2,1],["YF",3,3,1],["YF",4,3,1],["YF",7,3,1],["YF",5,4,1],["YF",6,4,1],["YF",3,5,1],["YF",3,6,1],["YW",3,2,9],["YW",3,3,2],["YW",3,4,3],["YW",3,5,1],["KF",8,12,1],["KF",9,12,2],["KF",10,12,2],["KF",11,12,2],["KF",11,13,2],["KW",11,8,2],["KW",11,9,1]],"o":"NNNNNYKNNNNNNNNNY","oc":[16,6],"e":[],"c":[["SPAWN F 1","SPAWN W 9","MOVE 3 4 W 1 D","MOVE 3 3 W 1 D","MOVE 3 3 W 2 D","MOVE 3 2 W 2 D","MOVE 3 1 W 4 D","MOVE 3 1 W 5 D","MOVE 7 2 F 1 D","MOVE 6 3 F 1 D","MOVE 5 3 F 1 D","MOVE 3 5 F 1 D","MOVE 3 4 F 1 D","MOVE 3 3 F 1 R","MOVE 3 2 F 1 D","MOVE 3 1 F 1 D"],["SPAWN F 2","MOVE 11 9 W 2 U","MOVE 11 10 W 1 U","MOVE 9 12 F 1 L","MOVE 10 12 F 2 L","MOVE 11 12 F 2 L","MOVE 11 13 F 2 U"]]},{"r":[11,27],"u":[["YF",3,3,1],["YF",5,3,1],["YF",8,3,1],["YF",3,4,1],["YF",5,5,1],["YF",6,5,1],["YF",3,6,1],["YF",3,7,1],["YW",3,2,5],["YW",3,3,9],["YW",3,4,2],["YW",3,5,3],["YW",3,6,1],["KF",7,12,1],["KF",8,12,2],["KF",9,12,2],["KF",10,12,2],["KF",11,12,2],["KF",11,13,2],["KW",11,7,2],["KW",11,8,1]],"o":"NNNNNYKNNNNNNNNKY","oc":[21,11],"e":[["p",7,12,"K"]],"c":[["SPAWN W 5","MOVE 3 5 W 1 D","MOVE 3 4 W 1 D","MOVE 3 4 W 1 D","MOVE 3 4 W 1 D","MOVE 3 3 W 2 D","MOVE 3 2 W 5 D","MOVE 3 2 W 4 D","MOVE 3 1 W 4 D","MOVE 3 1 W 1 D","MOVE 7 3 F 1 R","MOVE 6 4 F 1 D","MOVE 5 4 F 1 D","MOVE 3 5 F 1 D","MOVE 3 6 F 1 D","MOVE 4 3 F 1 R","MOVE 3 3 F 1 D","MOVE 3 2 F 1 D"],["SPAWN F 2","MOVE 11 8 W 2 U","MOVE 11 9 W 1 U","MOVE 8 12 F 1 L","MOVE 9 12 F 2 L","MOVE 10 12 F 2 L","MOVE 11 12 F 2 L","MOVE 11 13 F 2 U"]]},{"r":[9,12],"u":[["YF",6,3,1],["YF",9,3,1],["YF",3,4,1],["YF",3,5,2],["YF",4,5,1],["YF",7,5,1],["YF",3,8,1],["YW",3,2,5],["YW",3,3,5],["YW",3,4,9],["YW",3,5,2],["YW",3,6,3],["YW",3,7,1],["KF",7,11,1],["KF",8,11,2],["KF",9,11,2],["KF",10,11,2],["KF",11,11,2],["KF",11,12,2],["KF",11,13,5],["KW",11,6,2],["KW",11,7,1]],"o":"NNNNNYKNNNNYNNNKY","oc":[28,16],"e":[["p",7,5,"Y"]],"c":[["SPAWN W 5","MOVE 3 6 W 1 D","MOVE 3 5 W 1 D","MOVE 3 5 W 1 D","MOVE 3 5 W 1 D","MOVE 3 4 W 2 D","MOVE 3 3 W 9 D","MOVE 3 2 W 3 D","MOVE 3 2 W 2 D","MOVE 3 1 W 5 D","MOVE 6 5 F 1 R","MOVE 5 5 F 1 L","MOVE 8 3 F 1 R","MOVE 3 7 F 1 D","MOVE 5 3 F 1 R","MOVE 3 6 F 1 U","MOVE 3 4 F 1 D","MOVE 3 3 F 1 D"],["SPAWN F 5","MOVE 11 7 W 2 U","MOVE 11 8 W 1 U","MOVE 7 12 F 1 U","MOVE 8 12 F 2 U","MOVE 9 12 F 2 U","MOVE 10 12 F 2 U","MOVE 11 12 F 2 U","MOVE 11 13 F 2 U"]]},{"r":[11,12],"u":[["YF",7,3,1],["YF",9,4,1],["YF",3,5,1],["YF",3,6,2],["YF",4,6,1],["YF",7,6,1],["YF",3,9,1],["YW",3,2,4],["YW",3,3,5],["YW",3,4,5],["YW",3,5,9],["YW",3,6,2],["YW",3,7,3],["YW",3,8,1],["KF",7,10,1],["KF",8,10,2],["KF",9,10,2],["KF",11,10,2],["KF",9,11,2],["KF",11,11,2],["KF",11,12,5],["KF",11,13,2],["KW",11,5,2],["KW",11,6,1]],"o":"NNNNNYKNNNNYNNNKY","oc":[35,21],"e":[],"c":[["SPAWN W 4","MOVE 3 7 W 1 D","MOVE 3 6 W 1 D","MOVE 3 6 W 1 D","MOVE 3 6 W 1 D","MOVE 3 5 W 2 D","MOVE 3 4 W 4 D","MOVE 3 4 W 1 D","MOVE 3 4 W 1 D","MOVE 3 4 W 3 D","MOVE 3 3 W 4 D","MOVE 3 3 W 1 D","MOVE 3 2 W 5 D","MOVE 3 1 W 4 D","MOVE 9 3 F 1 D","MOVE 7 5 F 1 D","MOVE 3 8 F 1 D","MOVE 6 3 F 1 R","MOVE 4 5 F 1 D","MOVE 3 5 F 2 D","MOVE 3 4 F 1 D"],["SPAWN F 2","MOVE 11 6 W 2 U","MOVE 11 7 W 1 U","MOVE 7 11 F 1 U","MOVE 8 11 F 2 U","MOVE 9 11 F 2 U","MOVE 10 11 F 2 L","MOVE 11 11 F 2 U","MOVE 11 12 F 2 U","MOVE 11 13 F 5 U"]]},{"r":[5,10],"u":[["YF",8,3,1],["YF",10,4,1],["YF",2,6,1],["YF",3,6,1],["YF",6,6,1],["YF",3,7,1],["YF",4,7,1],["YF",3,10,1],["YW",3,2,5],["YW",3,3,6],["YW",3,4,5],["YW",3,5,3],["YW",3,6,9],["YW",3,7,2],["YW",4,7,3],["YW",4,8,1],["KF",7,9,1],["KF",8,9,2],["KF",9,9,2],["KF",11,9,2],["KF",9,10,2],["KF",11,10,2],["KF",11,11,5],["KF",11,12,2],["KF",11,13,2],["KW",11,4,2],["KW",11,5,1]],"o":"NNYNNYKYNNNYKYNKY","oc":[46,28],"e":[["p",10,4,"Y"],["p",3,10,"Y"],["p",6,6,"Y"],["p",7,9,"K"]],"c":[["SPAWN W 5","MOVE 3 8 W 1 R","MOVE 3 7 W 3 R","MOVE 3 6 W 1 D","MOVE 3 6 W 1 D","MOVE 3 5 W 7 D","MOVE 3 5 W 1 D","MOVE 3 5 W 1 D","MOVE 3 3 W 1 D","MOVE 3 3 W 4 D","MOVE 3 4 W 3 D","MOVE 3 4 W 2 U","MOVE 3 2 W 4 D","MOVE 3 1 W 5 D","MOVE 9 4 F 1 R","MOVE 7 6 F 1 L","MOVE 3 9 F 1 D","MOVE 7 3 F 1 R","MOVE 3 5 F 1 D","MOVE 3 6 F 1 D","MOVE 3 6 F 1 L","MOVE 4 6 F 1 D"],["SPAWN F 2","MOVE 11 5 W 2 U","MOVE 11 6 W 1 U","MOVE 7 10 F 1 U","MOVE 8 10 F 2 U","MOVE 9 10 F 2 U","MOVE 11 10 F 2 U","MOVE 9 11 F 2 U","MOVE 11 11 F 2 U","MOVE 11 12 F 5 U","MOVE 11 13 F 2 U"]]},{"r":[11,13],"u":[["YF",8,2,1],["YF",10,3,1],["YF",1,6,1],["YF",3,7,1],["YF",6,7,1],["YF",3,8,1],["YF",4,8,1],["YF",4,10,1],["YW",3,2,2],["YW",3,3,5],["YW",4,3,4],["YW",3,4,4],["YW",3,5,5],["YW",4,5,1],["YW",3,7,9],["YW",5,7,2],["YW",3,8,2],["YW",4,8,1],["YW",5,8,1],["KF",7,8,1],["KF",8,8,2],["KF",8,9,2],["KF",9,9,2],["KF",10,9,2],["KF",11,9,2],["KF",11,10,5],["KF",11,11,2],["KF",11,12,2],["KF",11,13,1],["KW",10,4,2],["KW",11,4,1]],"o":"NYYNNYKYNNNYKYKKY","oc":[58,37],"e":[["p",4,10,"Y"],["p",8,8,"K"]],"c":[["SPAWN W 2","MOVE 4 7 W 1 D","MOVE 4 7 W 2 R","MOVE 3 5 W 2 U","MOVE 3 5 W 1 R","MOVE 3 7 W 1 D","MOVE 3 7 W 1 D","MOVE 4 8 W 1 R","MOVE 3 6 W 1 D","MOVE 3 6 W 1 D","MOVE 3 6 W 1 D","MOVE 3 6 W 1 D","MOVE 3 6 W 5 D","MOVE 3 4 W 1 D","MOVE 3 4 W 4 D","MOVE 3 3 W 2 D","MOVE 3 3 W 4 R","MOVE 3 2 W 5 D","MOVE 3 1 W 2 D","MOVE 10 4 F 1 U","MOVE 3 10 F 1 R","MOVE 6 6 F 1 D","MOVE 4 7 F 1 D","MOVE 8 3 F 1 U","MOVE 2 6 F 1 L","MOVE 3 7 F 1 D","MOVE 3 6 F 1 D"],["SPAWN F 1","MOVE 11 4 W 2 L","MOVE 11 5 W 1 U","MOVE 7 9 F 1 U","MOVE 8 9 F 2 U","MOVE 9 9 F 2 L","MOVE 11 9 F 2 L","MOVE 9 10 F 2 U","MOVE 11 10 F 2 U","MOVE 11 11 F 5 U","MOVE 11 12 F 2 U","MOVE 11 13 F 2 U"]]},{"r":[15,13],"u":[["YF",9,2,1],["YF",10,2,1],["YF",0,6,1],["YF",7,7,1],["YF",3,8,1],["YF",4,8,1],["YF",5,8,1],["YF",4,11,1],["YW",3,2,5],["YW",3,3,2],["YW",4,3,4],["YW",5,3,4],["YW",3,4,1],["YW",3,5,4],["YW",4,5,5],["YW",5,5,1],["YW",4,7,9],["YW",5,8,3],["YW",6,8,1],["YW",3,9,2],["KF",7,7,1],["KF",8,7,2],["KF",8,8,2],["KF",10,8,2],["KF",11,8,2],["KF",8,9,2],["KF",11,9,5],["KF",11,10,2],["KF",11,11,2],["KF",11,12,1],["KF",11,13,2],["KW",10,3,2],["KW",11,3,1]],"o":"NYYNNYKYNNNYKYKKY","oc":[70,46],"e":[],"c":[["SPAWN W 5","MOVE 5 7 W 1 D","MOVE 5 7 W 1 D","MOVE 5 8 W 1 R","MOVE 4 5 W 1 R","MOVE 4 8 W 1 R","MOVE 3 7 W 1 R","MOVE 3 7 W 4 R","MOVE 3 7 W 1 R","MOVE 3 7 W 1 R","MOVE 3 7 W 1 R","MOVE 3 7 W 1 R","MOVE 3 5 W 1 R","MOVE 3 5 W 1 R","MOVE 3 5 W 3 R","MOVE 3 8 W 2 D","MOVE 4 3 W 2 R","MOVE 4 3 W 2 R","MOVE 3 4 W 4 D","MOVE 3 3 W 1 D","MOVE 3 3 W 4 R","MOVE 3 2 W 2 D","MOVE 3 1 W 5 D","MOVE 6 7 F 1 R","MOVE 10 3 F 1 U","MOVE 1 6 F 1 L","MOVE 3 7 F 1 D","MOVE 4 8 F 1 R","MOVE 8 2 F 1 R","MOVE 3 8 F 1 R","MOVE 4 10 F 1 D"],["SPAWN F 2","MOVE 10 4 W 2 U","MOVE 11 4 W 1 U","MOVE 7 8 F 1 U","MOVE 8 8 F 2 U","MOVE 8 9 F 2 U","MOVE 9 9 F 2 L","MOVE 10 9 F 2 U","MOVE 11 9 F 2 U","MOVE 11 10 F 5 U","MOVE 11 11 F 2 U","MOVE 11 12 F 2 U","MOVE 11 13 F 1 U"]]},{"r":[11,18],"u":[["YF",9,1,1],["YF",10,1,1],["YF",0,7,1],["YF",7,7,1],["YF",4,8,1],["YF",5,8,1],["YF",5,9,1],["YF",4,12,1],["YW",3,3,5],["YW",5,3,4],["YW",3,4,2],["YW",5,4,4],["YW",3,5,1],["YW",5,5,5],["YW",6,5,1],["YW",3,6,4],["YW",5,7,9],["YW",3,8,2],["YW",7,8,1],["YW",3,9,7],["YW",5,9,3],["KF",7,6,1],["KF",8,6,2],["KF",8,7,2],["KF",10,7,2],["KF",11,7,2],["KF",8,8,2],["KF",11,8,5],["KF",11,9,2],["KF",11,10,2],["KF",11,11,1],["KF",11,12,2],["KF",11,13,1],["KW",10,2,2],["KW",11,2,1]],"o":"YYYNNYKYNNNYKYKKY","oc":[85,55],"e":[["p",7,7,"Y"]],"c":[["SPAWN W 7 3 10","MOVE 5 5 W 1 R","MOVE 6 8 W 1 R","MOVE 4 7 W 1 R","MOVE 4 7 W 1 R","MOVE 4 7 W 1 R","MOVE 4 7 W 1 R","MOVE 4 7 W 1 R","MOVE 4 7 W 2 R","MOVE 4 7 W 1 R","MOVE 4 7 W 1 R","MOVE 4 5 W 3 R","MOVE 4 5 W 1 R","MOVE 4 5 W 1 R","MOVE 5 8 W 3 D","MOVE 5 3 W 4 D","MOVE 3 5 W 4 D","MOVE 4 3 W 3 R","MOVE 4 3 W 1 R","MOVE 3 4 W 1 D","MOVE 3 3 W 2 D","MOVE 3 9 W 2 U","MOVE 3 10 W 7 U","MOVE 3 2 W 5 D","MOVE 0 6 F 1 D","MOVE 10 2 F 1 U","MOVE 5 8 F 1 D","MOVE 9 2 F 1 U","MOVE 4 8 F 1 R","MOVE 4 11 F 1 D","MOVE 3 8 F 1 R"],["SPAWN F 1","MOVE 10 3 W 2 U","MOVE 11 3 W 1 U","MOVE 7 7 F 1 U","MOVE 8 7 F 2 U","MOVE 8 8 F 2 U","MOVE 10 8 F 2 U","MOVE 11 8 F 2 U","MOVE 8 9 F 2 U","MOVE 11 9 F 5 U","MOVE 11 10 F 2 U","MOVE 11 11 F 2 U","MOVE 11 12 F 1 U","MOVE 11 13 F 2 U"]]},{"r":[13,13],"u":[["YF",9,0,1],["YF",9,1,1],["YF",0,8,1],["YF",5,8,2],["YF",6,8,1],["YF",7,8,1],["YF",5,12,1],["YW",3,4,5],["YW",5,4,5],["YW",3,5,2],["YW",5,5,4],["YW",6,5,4],["YW",7,5,1],["YW",3,6,1],["YW",3,7,4],["YW",6,7,9],["YW",3,8,7],["YW",4,8,2],["YW",8,8,1],["YW",3,9,5],["YW",5,10,3],["KF",7,6,2],["KF",8,6,2],["KF",10,6,2],["KF",11,6,2],["KF",8,7,2],["KF",11,7,5],["KF",11,8,2],["KF",11,9,2],["KF",11,10,1],["KF",11,11,2],["KF",11,12,1],["KF",11,13,3],["KW",10,1,2],["KW",11,1,1]],"o":"YYYYNYKYNNNYKYKKY","oc":[101,64],"e":[["c",7,5,""],["p",0,8,"Y"]],"c":[["SPAWN W 5 3 10","MOVE 6 5 W 1 R","MOVE 7 8 W 1 R","MOVE 5 7 W 1 R","MOVE 5 7 W 1 R","MOVE 5 7 W 1 R","MOVE 5 7 W 1 R","MOVE 5 7 W 1 R","MOVE 5 7 W 1 R","MOVE 5 7 W 1 R","MOVE 5 7 W 1 R","MOVE 5 7 W 1 R","MOVE 5 5 W 1 U","MOVE 5 5 W 1 R","MOVE 5 5 W 1 R","MOVE 5 5 W 2 R","MOVE 5 3 W 4 D","MOVE 5 4 W 4 D","MOVE 5 9 W 1 D","MOVE 5 9 W 2 D","MOVE 3 5 W 1 D","MOVE 3 3 W 5 D","MOVE 3 6 W 2 D","MOVE 3 6 W 2 D","MOVE 3 4 W 2 D","MOVE 3 8 W 2 R","MOVE 3 9 W 7 U","MOVE 3 10 W 5 U","MOVE 0 7 F 1 D","MOVE 7 7 F 1 D","MOVE 5 8 F 1 R","MOVE 4 12 F 1 R","MOVE 10 1 F 1 L","MOVE 4 8 F 1 R","MOVE 5 9 F 1 U","MOVE 9 1 F 1 U"],["SPAWN F 3","MOVE 10 2 W 2 U","MOVE 11 2 W 1 U","MOVE 7 6 F 1 U","MOVE 8 6 F 2 L","MOVE 8 7 F 2 U","MOVE 10 7 F 2 U","MOVE 11 7 F 2 U","MOVE 8 8 F 2 U","MOVE 11 8 F 5 U","MOVE 11 9 F 2 U","MOVE 11 10 F 2 U","MOVE 11 11 F 1 U","MOVE 11 12 F 2 U","MOVE 11 13 F 1 U"]]},{"r":[14,13],"u":[["YF",8,0,1],["YF",9,2,1],["YF",5,7,1],["YF",6,8,1],["YF",7,8,1],["YF",0,9,1],["YF",7,9,1],["YF",6,12,1],["YW",3,5,5],["YW",4,5,1],["YW",5,5,5],["YW",6,5,4],["YW",7,5,2],["YW",3,6,1],["YW",6,6,9],["YW",3,7,8],["YW",4,7,2],["YW",7,7,3],["YW",3,8,9],["YW",3,9,6],["YW",5,9,3],["YW",8,9,1],["KF",10,5,2],["KF",11,5,2],["KF",11,6,5],["KF",8,7,2],["KF",11,7,2],["KF",11,8,2],["KF",11,9,1],["KF",11,10,2],["KF",11,11,1],["KF",11,12,3],["KF",11,13,2],["KW",9,1,2],["KW",10,1,1]],"o":"YYYYNYKYNNNYNYKKY","oc":[117,71],"e":[["c",7,7,""],["n",7,9,"Y"]],"c":[["SPAWN W 6 3 10","MOVE 6 7 W 1 R","MOVE 6 7 W 1 U","MOVE 6 7 W 1 U","MOVE 6 7 W 1 R","MOVE 6 7 W 1 U","MOVE 6 7 W 1 R","MOVE 6 7 W 1 U","MOVE 6 7 W 1 U","MOVE 6 7 W 1 U","MOVE 6 5 W 1 R","MOVE 6 5 W 1 D","MOVE 6 5 W 1 D","MOVE 6 5 W 1 D","MOVE 8 8 W 1 D","MOVE 5 5 W 4 R","MOVE 5 4 W 3 D","MOVE 5 4 W 2 D","MOVE 3 7 W 4 D","MOVE 3 5 W 1 D","MOVE 3 5 W 1 R","MOVE 4 8 W 2 U","MOVE 3 8 W 7 U","MOVE 3 4 W 5 D","MOVE 5 10 W 3 U","MOVE 3 6 W 1 D","MOVE 3 9 W 5 U","MOVE 3 10 W 6 U","MOVE 7 8 F 1 D","MOVE 6 8 F 1 R","MOVE 5 12 F 1 R","MOVE 5 8 F 1 R","MOVE 5 8 F 1 U","MOVE 9 0 F 1 L","MOVE 9 1 F 1 D","MOVE 0 8 F 1 D"],["SPAWN F 2","MOVE 10 1 W 2 L","MOVE 11 1 W 1 L","MOVE 7 6 F 2 D","MOVE 8 6 F 2 D","MOVE 10 6 F 2 U","MOVE 11 6 F 2 U","MOVE 8 7 F 2 L","MOVE 11 7 F 5 U","MOVE 11 8 F 2 U","MOVE 11 9 F 2 U","MOVE 11 10 F 1 U","MOVE 11 11 F 2 U","MOVE 11 12 F 1 U","MOVE 11 13 F 3 U"]]},{"r":[12,5],"u":[["YF",7,0,1],["YF",9,3,1],["YF",0,8,1],["YF",5,8,1],["YF",7,8,1],["YF",7,9,2],["YF",7,12,1],["YW",3,2,7],["YW",6,5,5],["YW",3,6,5],["YW",4,6,2],["YW",6,6,5],["YW",7,6,8],["YW",4,7,8],["YW",6,7,2],["YW",8,7,3],["YW",3,8,6],["YW",4,8,11],["YW",5,8,3],["YW",8,10,1],["KF",10,4,2],["KF",11,4,2],["KF",11,5,5],["KF",11,6,2],["KF",7,7,2],["KF",11,7,2],["KF",11,8,1],["KF",11,9,2],["KF",11,10,1],["KF",11,11,3],["KF",11,12,2],["KF",11,13,2],["KW",9,2,2],["KW",10,2,1]],"o":"NYNYNYKYKNNYYYKNY","oc":[131,76],"e":[["n",7,12,"Y"],["p",7,9,"Y"],["n",7,7,"K"],["p",11,4,"K"],["n",10,4,"K"]],"c":[["SPAWN W 7","MOVE 6 6 W 1 D","MOVE 6 6 W 1 D","MOVE 6 6 W 1 R","MOVE 6 6 W 1 R","MOVE 6 6 W 1 R","MOVE 6 6 W 1 R","MOVE 6 6 W 1 R","MOVE 6 6 W 1 R","MOVE 7 7 W 1 R","MOVE 7 7 W 1 R","MOVE 7 7 W 1 R","MOVE 7 5 W 2 D","MOVE 6 5 W 4 D","MOVE 5 5 W 1 R","MOVE 5 5 W 1 R","MOVE 5 5 W 3 R","MOVE 8 9 W 1 D","MOVE 4 7 W 2 D","MOVE 4 5 W 1 D","MOVE 3 7 W 8 R","MOVE 3 5 W 5 D","MOVE 5 9 W 3 U","MOVE 3 8 W 9 R","MOVE 3 6 W 1 R","MOVE 3 9 W 6 U","MOVE 3 1 W 7 D","MOVE 7 8 F 1 D","MOVE 6 12 F 1 R","MOVE 6 8 F 1 R","MOVE 9 2 F 1 D","MOVE 5 7 F 1 D","MOVE 0 9 F 1 U","MOVE 8 0 F 1 L"],["SPAWN F 2","MOVE 9 1 W 2 D","MOVE 10 1 W 1 D","MOVE 10 5 F 2 U","MOVE 11 5 F 2 U","MOVE 11 6 F 5 U","MOVE 8 7 F 2 L","MOVE 11 7 F 2 U","MOVE 11 8 F 2 U","MOVE 11 9 F 1 U","MOVE 11 10 F 2 U","MOVE 11 11 F 1 U","MOVE 11 12 F 3 U","MOVE 11 13 F 2 U"]]},{"r":[26,13],"u":[["YF",8,0,1],["YF",9,4,1],["YF",5,7,1],["YF",7,7,1],["YF",7,8,1],["YF",0,9,1],["YF",7,10,1],["YF",7,12,1],["YW",3,3,7],["YW",7,5,1],["YW",6,6,6],["YW",7,6,3],["YW",8,6,7],["YW",3,7,5],["YW",4,7,13],["YW",5,7,10],["YW",6,7,1],["YW",4,8,7],["YW",6,8,2],["YW",8,8,3],["YW",3,9,6],["YW",8,11,1],["KF",10,4,4],["KF",11,4,5],["KF",11,5,2],["KF",11,6,2],["KF",7,7,2],["KF",11,7,1],["KF",11,8,2],["KF",11,9,1],["KF",11,10,3],["KF",11,11,2],["KF",11,12,2],["KW",9,3,2],["KW",10,3,1]],"o":"NYKYNYKYKNNYYYKYY","oc":[148,82],"e":[["p",7,12,"Y"],["p",10,4,"K"]],"c":[["SPAWN W 6 3 10","MOVE 6 6 W 1 D","MOVE 6 6 W 3 R","MOVE 7 6 W 1 U","MOVE 7 6 W 3 R","MOVE 7 6 W 3 R","MOVE 7 6 W 1 R","MOVE 6 5 W 1 D","MOVE 6 5 W 1 D","MOVE 6 5 W 1 D","MOVE 6 5 W 1 D","MOVE 6 5 W 1 D","MOVE 8 7 W 1 D","MOVE 8 7 W 2 D","MOVE 6 7 W 1 D","MOVE 6 7 W 1 D","MOVE 8 10 W 1 D","MOVE 4 7 W 1 D","MOVE 4 7 W 7 R","MOVE 5 8 W 3 U","MOVE 4 8 W 11 U","MOVE 4 6 W 2 D","MOVE 3 8 W 6 R","MOVE 3 6 W 5 D","MOVE 3 2 W 7 D","MOVE 3 10 W 6 U","MOVE 7 8 F 1 U","MOVE 9 3 F 1 D","MOVE 7 9 F 1 U","MOVE 7 9 F 1 D","MOVE 5 8 F 1 U","MOVE 0 8 F 1 D","MOVE 7 0 F 1 R"],["MOVE 9 2 W 2 D","MOVE 10 2 W 1 D","MOVE 11 4 F 2 L","MOVE 11 5 F 5 U","MOVE 11 6 F 2 U","MOVE 11 7 F 2 U","MOVE 11 8 F 1 U","MOVE 11 9 F 2 U","MOVE 11 10 F 1 U","MOVE 11 11 F 3 U","MOVE 11 12 F 2 U","MOVE 11 13 F 2 U"]]},{"r":[8,20],"u":[["YF",8,1,1],["YF",9,5,1],["YF",7,7,1],["YF",0,8,1],["YF",5,8,1],["YF",8,8,1],["YF",7,9,1],["YF",7,13,1],["YW",4,3,7],["YW",7,5,1],["YW",6,6,2],["YW",7,6,4],["YW",8,6,3],["YW",9,6,7],["YW",4,7,12],["YW",5,7,7],["YW",6,7,11],["YW",3,8,6],["YW",4,8,6],["YW",7,8,2],["YW",3,9,13],["YW",8,9,3],["YW",8,12,1],["KF",10,3,4],["KF",12,4,5],["KF",10,6,2],["KF",11,6,2],["KF",11,8,1],["KF",10,9,1],["KF",11,9,5],["KF",11,10,2],["KF",11,11,2],["KF",11,13,1],["KW",9,4,2],["KW",10,4,1]],"o":"YYKYNYKYKNNYYYNYY","oc":[168,86],"e":[["c",7,8,""],["p",7,7,"Y"],["n",8,8,"Y"]],"c":[["SPAWN W 13 3 10","MOVE 6 6 W 1 D","MOVE 6 6 W 4 R","MOVE 7 6 W 3 R","MOVE 6 7 W 1 U","MOVE 5 7 W 7 R","MOVE 5 7 W 1 R","MOVE 5 7 W 1 R","MOVE 5 7 W 1 R","MOVE 8 6 W 7 R","MOVE 8 8 W 1 D","MOVE 8 8 W 1 D","MOVE 8 8 W 1 D","MOVE 6 8 W 1 R","MOVE 6 8 W 1 R","MOVE 8 11 W 1 D","MOVE 4 7 W 6 D","MOVE 4 7 W 7 R","MOVE 4 8 W 7 U","MOVE 3 7 W 5 R","MOVE 3 10 W 13 U","MOVE 3 3 W 7 R","MOVE 3 9 W 6 U","MOVE 9 4 F 1 D","MOVE 7 8 F 1 R","MOVE 5 7 F 1 D","MOVE 7 10 F 1 U","MOVE 7 12 F 1 D","MOVE 0 9 F 1 U","MOVE 8 0 F 1 D"],["SPAWN F 1","MOVE 9 3 W 2 D","MOVE 10 3 W 1 D","MOVE 10 4 F 4 U","MOVE 11 4 F 5 R","MOVE 11 5 F 2 D","MOVE 11 6 F 2 L","MOVE 7 7 F 2 D","MOVE 11 7 F 1 D","MOVE 11 8 F 2 D","MOVE 11 9 F 1 L","MOVE 11 10 F 3 U","MOVE 11 11 F 2 U","MOVE 11 12 F 2 U"]]},{"r":[11,17],"u":[["YF",8,2,1],["YF",9,6,1],["YF",0,7,1],["YF",7,8,2],["YF",8,8,1],["YF",5,9,1],["YF",7,12,1],["YW",3,2,4],["YW",4,2,1],["YW",5,3,6],["YW",7,5,1],["YW",6,6,10],["YW",7,6,2],["YW",8,6,4],["YW",9,6,3],["YW",10,6,7],["YW",3,7,6],["YW",4,7,1],["YW",5,7,12],["YW",6,7,7],["YW",7,7,3],["YW",4,9,18],["YW",7,9,1],["YW",9,9,2],["YW",8,11,1],["KF",10,2,4],["KF",13,4,5],["KF",11,8,5],["KF",12,8,1],["KF",11,11,2],["KF",11,12,3],["KF",11,13,3],["KW",9,5,2],["KW",10,5,1]],"o":"YYKYNYKYKNNYYYYYY","oc":[190,90],"e":[["c",9,6,""],["c",9,9,""],["c",10,6,""],["p",8,8,"Y"]],"c":[["SPAWN W 4","MOVE 6 6 W 2 R","MOVE 6 7 W 1 R","MOVE 6 7 W 1 U","MOVE 6 7 W 9 U","MOVE 9 6 W 1 R","MOVE 9 6 W 5 R","MOVE 9 6 W 1 R","MOVE 7 6 W 4 R","MOVE 8 9 W 1 R","MOVE 8 9 W 1 R","MOVE 8 9 W 1 L","MOVE 7 8 W 2 U","MOVE 5 7 W 6 R","MOVE 5 7 W 1 R","MOVE 8 6 W 1 R","MOVE 8 6 W 2 R","MOVE 4 7 W 9 R","MOVE 4 7 W 1 R","MOVE 4 7 W 1 R","MOVE 4 7 W 1 R","MOVE 4 3 W 1 U","MOVE 4 3 W 6 R","MOVE 4 8 W 5 D","MOVE 4 8 W 1 U","MOVE 8 12 W 1 U","MOVE 3 8 W 6 U","MOVE 3 1 W 4 D","MOVE 3 9 W 13 R","MOVE 9 5 F 1 D","MOVE 7 7 F 1 D","MOVE 7 9 F 1 U","MOVE 5 8 F 1 D","MOVE 7 13 F 1 U","MOVE 8 1 F 1 D","MOVE 0 8 F 1 U"],["SPAWN F 3","MOVE 9 4 W 2 D","MOVE 10 4 W 1 D","MOVE 10 3 F 4 U","MOVE 12 4 F 5 R","MOVE 10 6 F 2 L","MOVE 11 6 F 2 L","MOVE 11 8 F 1 R","MOVE 10 9 F 1 L","MOVE 11 9 F 5 U","MOVE 11 10 F 2 D","MOVE 11 11 F 2 D","MOVE 11 13 F 1 U"]]},{"r":[13,14],"u":[["YF",8,3,1],["YF",9,5,1],["YF",0,6,1],["YF",7,7,1],["YF",7,8,1],["YF",5,9,1],["YF",8,9,1],["YF",8,12,1],["YW",3,2,5],["YW",5,2,2],["YW",3,3,4],["YW",6,3,5],["YW",7,4,1],["YW",9,5,3],["YW",10,5,7],["YW",6,6,4],["YW",7,6,10],["YW",8,6,2],["YW",9,6,2],["YW",4,7,6],["YW",5,7,1],["YW",6,7,12],["YW",4,8,18],["YW",6,8,3],["YW",7,8,3],["YW",10,9,2],["YW",7,10,1],["YW",9,11,1],["KF",9,2,4],["KF",14,4,5],["KF",13,8,1],["KF",11,9,5],["KF",11,10,2],["KF",11,11,3],["KF",11,12,3],["KF",11,13,3],["KW",10,6,1]],"o":"YYKYNYKYKNNYYYYYY","oc":[212,94],"e":[["c",9,6,""]],"c":[["SPAWN W 5","MOVE 9 6 W 3 U","MOVE 10 6 W 1 U","MOVE 10 6 W 6 U","MOVE 8 6 W 4 R","MOVE 8 11 W 1 R","MOVE 5 3 W 1 U","MOVE 5 3 W 5 R","MOVE 7 6 W 2 R","MOVE 9 9 W 1 R","MOVE 9 9 W 1 R","MOVE 4 2 W 1 R","MOVE 7 5 W 1 U","MOVE 7 9 W 1 D","MOVE 6 6 W 1 R","MOVE 6 6 W 1 R","MOVE 6 6 W 1 R","MOVE 6 6 W 7 R","MOVE 3 2 W 1 D","MOVE 3 2 W 3 D","MOVE 7 7 W 3 D","MOVE 6 7 W 3 D","MOVE 6 7 W 4 U","MOVE 3 1 W 5 D","MOVE 4 9 W 18 U","MOVE 5 7 W 12 R","MOVE 4 7 W 1 R","MOVE 3 7 W 6 R","MOVE 9 6 F 1 U","MOVE 7 12 F 1 R","MOVE 8 2 F 1 D","MOVE 8 8 F 1 D","MOVE 0 7 F 1 U","MOVE 7 8 F 1 U"],["SPAWN F 3","MOVE 9 5 W 2 D","MOVE 10 5 W 1 D","MOVE 10 2 F 4 L","MOVE 13 4 F 5 R","MOVE 11 8 F 5 D","MOVE 12 8 F 1 R","MOVE 11 11 F 2 U","MOVE 11 12 F 3 U","MOVE 11 13 F 3 U"]]},{"r":[13,17],"u":[["YF",9,3,1],["YF",9,4,1],["YF",0,6,1],["YF",7,6,1],["YF",5,9,1],["YF",7,9,1],["YF",8,10,1],["YF",9,12,1],["YW",3,2,6],["YW",4,2,5],["YW",6,2,4],["YW",4,3,4],["YW",7,3,3],["YW",9,4,3],["YW",10,4,7],["YW",7,5,1],["YW",9,5,2],["YW",7,6,4],["YW",8,6,4],["YW",9,6,2],["YW",4,7,18],["YW",5,7,6],["YW",6,7,4],["YW",7,7,7],["YW",6,8,11],["YW",8,8,1],["YW",10,8,1],["YW",7,9,2],["YW",11,9,1],["YW",7,11,1],["YW",9,12,1],["KF",8,2,4],["KF",14,5,5],["KF",14,8,1],["KF",10,9,5],["KF",10,12,3],["KF",11,12,6],["KF",11,13,1],["KW",10,5,1],["KW",11,13,2]],"o":"YYKYNYKYKNNYYYYYY","oc":[234,98],"e":[["c",11,9,""]],"c":[["SPAWN W 6","MOVE 10 5 W 7 U","MOVE 7 8 W 1 D","MOVE 7 8 W 1 R","MOVE 7 8 W 1 D","MOVE 10 9 W 1 R","MOVE 10 9 W 1 U","MOVE 7 10 W 1 D","MOVE 6 3 W 1 U","MOVE 6 3 W 1 U","MOVE 6 3 W 3 R","MOVE 9 5 W 3 U","MOVE 6 8 W 3 U","MOVE 5 2 W 2 R","MOVE 8 6 W 1 R","MOVE 8 6 W 1 R","MOVE 7 4 W 1 D","MOVE 9 11 W 1 D","MOVE 6 7 W 6 D","MOVE 6 7 W 1 R","MOVE 6 7 W 5 D","MOVE 7 6 W 6 D","MOVE 7 6 W 4 R","MOVE 9 6 W 2 U","MOVE 4 8 W 18 U","MOVE 3 2 W 5 R","MOVE 6 6 W 4 R","MOVE 5 7 W 1 R","MOVE 4 7 W 6 R","MOVE 3 1 W 6 D","MOVE 3 3 W 4 R","MOVE 9 5 F 1 U","MOVE 8 12 F 1 R","MOVE 8 3 F 1 R","MOVE 8 9 F 1 D","MOVE 7 7 F 1 U","MOVE 7 8 F 1 D"],["SPAWN W 2","SPAWN F 1","MOVE 10 6 W 1 U","MOVE 9 2 F 4 L","MOVE 14 4 F 5 D","MOVE 13 8 F 1 R","MOVE 11 9 F 5 L","MOVE 11 10 F 2 U","MOVE 11 11 F 3 D","MOVE 11 12 F 3 L","MOVE 11 13 F 3 U"]]},{"r":[11,10],"u":[["YF",9,4,1],["YF",10,4,1],["YF",7,5,1],["YF",0,6,1],["YF",5,9,1],["YF",8,9,1],["YF",8,11,1],["YF",10,12,1],["YW",3,2,6],["YW",4,2,7],["YW",5,2,1],["YW",4,3,3],["YW",5,3,4],["YW",6,3,4],["YW",8,3,3],["YW",9,4,2],["YW",10,4,9],["YW",7,5,1],["YW",9,5,2],["YW",7,6,4],["YW",9,6,4],["YW",5,7,18],["YW",6,7,7],["YW",7,7,8],["YW",7,8,13],["YW",8,8,1],["YW",7,9,1],["YW",8,9,1],["YW",10,9,1],["YW",11,10,1],["YW",7,12,1],["YW",10,12,1],["KF",7,2,4],["KF",14,6,5],["KF",14,7,1],["KF",9,9,5],["KF",9,12,3],["KF",11,12,1],["KF",11,13,3],["KW",11,12,2]],"o":"YYNYKYYYKNNYYYYYN","oc":[255,100],"e":[["c",10,4,""],["c",10,12,""],["n",10,12,""],["n",10,4,"Y"],["p",10,12,"Y"],["p",14,6,"K"],["n",7,2,"K"]],"c":[["SPAWN W 6","MOVE 4 2 W 3 D","MOVE 4 2 W 1 R","MOVE 7 9 W 1 R","MOVE 3 2 W 1 R","MOVE 3 2 W 5 R","MOVE 6 2 W 4 D","MOVE 4 3 W 3 R","MOVE 4 3 W 1 R","MOVE 7 6 W 4 D","MOVE 7 3 W 1 R","MOVE 7 3 W 2 R","MOVE 9 4 W 3 R","MOVE 10 8 W 1 D","MOVE 11 9 W 1 D","MOVE 7 11 W 1 D","MOVE 9 12 W 1 R","MOVE 6 8 W 1 U","MOVE 6 8 W 10 R","MOVE 7 7 W 3 D","MOVE 7 7 W 4 U","MOVE 3 1 W 6 D","MOVE 8 6 W 4 R","MOVE 9 5 W 2 U","MOVE 6 7 W 4 R","MOVE 9 6 W 2 U","MOVE 5 7 W 6 R","MOVE 4 7 W 18 R","MOVE 9 4 F 1 R","MOVE 9 12 F 1 R","MOVE 9 3 F 1 D","MOVE 8 10 F 1 D","MOVE 7 6 F 1 U","MOVE 7 9 F 1 R"],["SPAWN F 3","MOVE 10 5 W 1 U","MOVE 11 13 W 2 U","MOVE 8 2 F 4 L","MOVE 14 5 F 5 D","MOVE 14 8 F 1 U","MOVE 10 9 F 5 L","MOVE 10 12 F 3 L","MOVE 11 12 F 6 L","MOVE 11 13 F 1 U"]]},{"r":[12,25],"u":[["YF",7,4,1],["YF",10,4,2],["YF",0,5,1],["YF",5,8,1],["YF",8,10,1],["YF",8,11,1],["YF",10,11,1],["YW",3,2,5],["YW",4,2,10],["YW",5,2,4],["YW",6,2,5],["YW",4,3,6],["YW",9,3,3],["YW",9,4,2],["YW",10,4,6],["YW",11,4,5],["YW",9,5,4],["YW",7,6,4],["YW",8,6,4],["YW",6,7,18],["YW",7,7,8],["YW",7,8,3],["YW",7,9,14],["YW",8,9,2],["YW",9,9,2],["YW",11,9,1],["YW",8,12,1],["YW",11,12,1],["KF",7,2,4],["KF",14,5,5],["KF",14,6,1],["KF",10,12,1],["KF",11,13,1],["KW",10,12,2],["KW",11,13,1]],"o":"YYYYKYNYKNNYYYYYK","oc":[275,105],"e":[["c",8,9,""],["c",8,12,""],["c",11,12,""],["p",10,4,"Y"],["p",7,2,"K"],["n",10,12,"K"]],"c":[["SPAWN W 5","MOVE 10 4 W 5 R","MOVE 7 7 W 1 U","MOVE 7 7 W 1 D","MOVE 7 7 W 1 D","MOVE 7 7 W 1 D","MOVE 7 7 W 1 U","MOVE 7 7 W 2 U","MOVE 4 2 W 1 D","MOVE 4 2 W 1 D","MOVE 4 2 W 3 D","MOVE 4 2 W 1 D","TELE 7 5 W 1 7 9","MOVE 8 8 W 1 D","MOVE 7 9 W 1 R","MOVE 7 12 W 1 R","MOVE 10 12 W 1 R","MOVE 7 8 W 5 D","MOVE 7 8 W 5 D","MOVE 7 8 W 1 D","MOVE 7 8 W 2 D","MOVE 6 7 W 7 R","MOVE 3 2 W 6 R","MOVE 7 6 W 4 R","MOVE 4 3 W 3 U","MOVE 9 4 W 2 R","MOVE 5 2 W 1 R","MOVE 8 9 W 1 R","MOVE 10 9 W 1 L","MOVE 5 7 W 18 R","MOVE 3 1 W 5 D","MOVE 5 3 W 4 U","MOVE 6 3 W 4 U","MOVE 8 3 W 3 R","MOVE 9 5 W 2 U","MOVE 11 10 W 1 U","MOVE 9 6 W 4 U","MOVE 9 4 F 1 R","MOVE 7 5 F 1 U","MOVE 8 9 F 1 D","MOVE 0 6 F 1 U","MOVE 5 9 F 1 U","MOVE 10 12 F 1 U"],["SPAWN W 1","SPAWN F 1","MOVE 11 12 W 2 L","MOVE 14 6 F 5 U","MOVE 14 7 F 1 U","MOVE 9 9 F 5 L","MOVE 9 12 F 3 L","MOVE 11 12 F 1 L","MOVE 11 13 F 3 U"]]},{"r":[13,15],"u":[["YF",7,3,1],["YF",10,3,1],["YF",11,4,1],["YF",0,5,1],["YF",5,8,1],["YF",8,9,1],["YF",9,11,1],["YF",8,12,1],["YW",3,2,6],["YW",4,2,6],["YW",5,2,9],["YW",6,2,4],["YW",7,2,3],["YW",5,3,6],["YW",6,3,2],["YW",9,4,7],["YW",10,4,2],["YW",11,4,10],["YW",12,4,1],["YW",7,5,4],["YW",6,6,18],["YW",7,6,8],["YW",9,6,4],["YW",7,7,3],["YW",7,10,14],["YW",8,10,2],["YW",9,10,2],["YW",11,10,1],["YW",9,12,1],["YW",10,12,1],["KF",7,3,4],["KF",14,4,5],["KF",14,5,1],["KF",11,12,1],["KF",11,13,4],["KW",10,11,2],["KW",11,12,1]],"o":"YYYYKYNYNNNYYYYYK","oc":[295,109],"e":[["c",10,12,""],["n",11,4,"Y"]],"c":[["SPAWN W 6","MOVE 4 2 W 1 R","MOVE 4 2 W 8 R","MOVE 11 4 W 1 R","MOVE 4 3 W 3 R","MOVE 4 3 W 1 R","MOVE 4 3 W 1 R","MOVE 4 3 W 1 R","MOVE 10 4 W 6 R","MOVE 3 2 W 5 R","MOVE 6 2 W 2 D","MOVE 6 2 W 3 R","MOVE 5 2 W 4 R","MOVE 7 6 W 4 U","MOVE 8 12 W 1 R","MOVE 11 12 W 1 L","MOVE 7 7 W 8 U","MOVE 3 1 W 6 D","MOVE 8 6 W 4 R","MOVE 9 4 W 2 R","MOVE 6 7 W 18 U","MOVE 7 9 W 14 D","MOVE 9 5 W 4 U","MOVE 9 3 W 3 D","MOVE 7 8 W 3 U","MOVE 8 9 W 2 D","MOVE 9 9 W 2 D","MOVE 11 9 W 1 D","MOVE 10 4 F 1 R","MOVE 10 4 F 1 U","MOVE 10 11 F 1 L","MOVE 7 4 F 1 U","MOVE 8 11 F 1 D","MOVE 8 10 F 1 U"],["SPAWN F 4","MOVE 10 12 W 2 U","MOVE 11 13 W 1 U","MOVE 7 2 F 4 D","MOVE 14 5 F 5 U","MOVE 14 6 F 1 U","MOVE 11 13 F 1 U"]]},{"r":[13,15],"u":[["YF",7,2,1],["YF",10,4,1],["YF",11,4,1],["YF",0,5,1],["YF",5,8,1],["YF",9,9,1],["YF",8,11,1],["YF",9,12,1],["YW",3,2,6],["YW",4,2,7],["YW",4,3,5],["YW",5,3,9],["YW",6,3,10],["YW",7,3,5],["YW",10,4,19],["YW",13,4,1],["YW",6,5,2],["YW",7,5,8],["YW",9,5,4],["YW",6,6,1],["YW",7,6,17],["YW",6,7,1],["YW",7,7,1],["YW",7,8,2],["YW",7,9,1],["YW",7,11,14],["YW",8,11,2],["YW",10,12,2],["KF",14,3,5],["KF",7,4,4],["KF",14,4,1],["KF",11,12,4],["KF",11,13,2]],"o":"YYYYKYNYYNNYYYYYN","oc":[316,110],"e":[["c",9,11,""],["c",10,12,""],["c",11,11,""],["p",11,4,"Y"],["n",7,2,"Y"]],"c":[["SPAWN W 6","MOVE 6 6 W 1 U","MOVE 6 6 W 1 U","MOVE 6 6 W 1 D","MOVE 6 6 W 1 R","MOVE 6 6 W 1 R","MOVE 6 6 W 4 R","MOVE 6 6 W 8 R","MOVE 4 2 W 1 D","MOVE 4 2 W 2 D","MOVE 4 2 W 2 D","TELE 7 5 W 1 7 9","MOVE 7 5 W 3 D","MOVE 7 7 W 2 D","MOVE 11 4 W 10 L","MOVE 5 2 W 9 D","MOVE 7 6 W 8 U","MOVE 9 4 W 7 R","MOVE 3 2 W 6 R","MOVE 7 2 W 3 D","MOVE 6 3 W 2 R","MOVE 9 12 W 1 R","MOVE 7 10 W 14 D","MOVE 5 3 W 6 R","MOVE 3 1 W 6 D","MOVE 6 2 W 4 D","MOVE 12 4 W 1 R","MOVE 11 10 W 1 D","MOVE 9 6 W 4 U","MOVE 8 10 W 2 D","MOVE 9 10 W 2 D","MOVE 7 3 F 1 U","MOVE 10 3 F 1 D","MOVE 9 11 F 1 D","MOVE 8 12 F 1 U","MOVE 8 9 F 1 R"],["SPAWN F 2","MOVE 10 11 W 2 L","MOVE 11 12 W 1 U","MOVE 7 3 F 4 D","MOVE 14 4 F 5 U","MOVE 14 5 F 1 U","MOVE 11 12 F 1 L","MOVE 11 13 F 4 U"]]},{"r":[14,16],"u":[["YF",7,2,1],["YF",10,3,1],["YF",11,3,1],["YF",0,5,1],["YF",5,8,1],["YF",10,9,1],["YF",8,12,1],["YF",10,12,1],["YW",3,3,6],["YW",4,3,7],["YW",5,3,5],["YW",10,3,2],["YW",13,3,1],["YW",5,4,9],["YW",6,4,10],["YW",7,4,5],["YW",10,4,1],["YW",11,4,21],["YW",7,5,22],["YW",10,5,5],["YW",6,6,1],["YW",7,6,4],["YW",7,7,4],["YW",7,8,1],["YW",7,9,1],["YW",7,12,14],["YW",8,12,2],["YW",11,12,2],["KF",14,2,5],["KF",14,3,1],["KF",10,12,4],["KW",11,13,3]],"o":"YYYYKYNYYNNYYYYYY","oc":[340,111],"e":[["c",7,5,""],["c",11,12,""],["p",7,2,"Y"]],"c":[["SPAWN W 6 11 4","MOVE 10 4 W 1 R","MOVE 10 4 W 1 R","MOVE 10 4 W 1 U","MOVE 10 4 W 1 R","MOVE 10 4 W 1 U","MOVE 10 4 W 6 R","MOVE 10 4 W 1 D","MOVE 10 4 W 6 R","MOVE 7 5 W 1 D","TELE 7 5 W 1 7 9","MOVE 7 5 W 3 D","MOVE 7 6 W 17 U","MOVE 7 11 W 14 D","MOVE 7 3 W 5 D","MOVE 6 5 W 2 R","MOVE 7 8 W 2 U","MOVE 10 12 W 2 R","MOVE 13 4 W 1 U","MOVE 6 7 W 1 R","MOVE 6 3 W 10 D","MOVE 9 5 W 4 R","MOVE 8 11 W 2 D","MOVE 7 9 W 1 U","MOVE 5 3 W 9 D","MOVE 4 3 W 5 R","MOVE 4 2 W 7 D","MOVE 3 2 W 6 D","MOVE 9 12 F 1 R","MOVE 8 11 F 1 D","MOVE 9 9 F 1 R","MOVE 10 4 F 1 U","MOVE 11 4 F 1 U"],["SPAWN W 3","MOVE 14 3 F 5 U","MOVE 7 4 F 4 D","MOVE 14 4 F 1 U","MOVE 11 12 F 4 L","MOVE 11 13 F 2 U"]]},{"r":[13,16],"u":[["YF",6,2,1],["YF",11,2,1],["YF",10,3,1],["YF",0,5,1],["YF",5,8,1],["YF",10,8,1],["YF",7,12,1],["YF",10,12,1],["YW",3,2,6],["YW",4,2,7],["YW",5,2,5],["YW",13,2,1],["YW",11,3,4],["YW",11,4,13],["YW",5,5,9],["YW",6,5,10],["YW",7,5,5],["YW",11,5,19],["YW",7,6,18],["YW",7,7,4],["YW",7,8,4],["YW",7,9,6],["YW",7,10,1],["YW",8,12,14],["YW",9,12,2],["YW",10,12,2],["KF",14,1,5],["KF",14,2,1],["KF",11,13,2],["KW",11,12,3]],"o":"YYYYKYYYYNNYYYYYY","oc":[366,112],"e":[["c",9,12,""],["p",10,12,"Y"]],"c":[["SPAWN W 7 11 4","MOVE 11 4 W 1 U","MOVE 11 4 W 1 U","MOVE 11 4 W 1 D","MOVE 11 4 W 12 D","MOVE 11 4 W 1 D","MOVE 7 12 W 14 R","MOVE 8 12 W 2 R","MOVE 11 12 W 2 L","MOVE 13 3 W 1 U","MOVE 10 4 W 1 R","MOVE 10 5 W 5 R","MOVE 10 3 W 2 R","MOVE 7 9 W 1 D","MOVE 7 8 W 1 D","MOVE 7 7 W 4 D","MOVE 7 4 W 5 D","MOVE 7 6 W 4 D","TELE 7 5 W 5 7 9","MOVE 7 5 W 17 D","MOVE 6 4 W 10 D","MOVE 5 3 W 5 U","MOVE 6 6 W 1 R","MOVE 5 4 W 9 D","MOVE 4 3 W 7 U","MOVE 3 3 W 6 U","MOVE 8 12 F 1 L","MOVE 10 9 F 1 U","MOVE 11 3 F 1 U","MOVE 7 2 F 1 L"],["SPAWN F 2","MOVE 11 13 W 3 U","MOVE 14 2 F 5 U","MOVE 14 3 F 1 U","MOVE 10 12 F 4 L"]]},{"r":[15,15],"u":[["YF",11,1,1],["YF",6,2,1],["YF",10,4,1],["YF",0,5,1],["YF",5,8,1],["YF",11,8,1],["YF",7,11,1],["YF",10,11,1],["YW",13,1,1],["YW",4,2,6],["YW",5,2,7],["YW",6,2,5],["YW",11,2,4],["YW",11,3,19],["YW",5,4,9],["YW",7,4,5],["YW",11,4,19],["YW",7,5,28],["YW",7,6,4],["YW",7,9,4],["YW",7,10,6],["YW",7,11,1],["YW",9,12,14],["YW",10,12,1],["KF",14,0,5],["KF",14,1,1],["KF",11,12,2],["KF",11,13,2]],"o":"YYYYKYYYYNKYYYYYY","oc":[392,114],"e":[["c",10,12,""],["p",14,0,"K"]],"c":[["SPAWN W 6 11 4","MOVE 9 12 W 2 R","MOVE 13 2 W 1 U","MOVE 8 12 W 12 R","MOVE 8 12 W 1 R","MOVE 8 12 W 1 R","MOVE 11 3 W 4 U","MOVE 11 4 W 19 U","MOVE 7 10 W 1 D","MOVE 11 5 W 19 U","MOVE 7 9 W 6 D","MOVE 7 8 W 4 D","MOVE 7 7 W 4 U","MOVE 7 6 W 18 U","MOVE 5 2 W 5 R","MOVE 4 2 W 7 R","MOVE 7 5 W 5 U","MOVE 6 5 W 10 R","MOVE 3 2 W 6 R","MOVE 5 5 W 9 U","MOVE 11 2 F 1 U","MOVE 10 8 F 1 R","MOVE 10 3 F 1 D","MOVE 7 12 F 1 U","MOVE 10 12 F 1 U"],["SPAWN F 2","MOVE 11 12 W 3 L","MOVE 14 1 F 5 U","MOVE 14 2 F 1 U","MOVE 11 13 F 2 U"]]},{"r":[15,16],"u":[["YF",11,0,1],["YF",6,2,1],["YF",0,5,1],["YF",10,5,1],["YF",5,8,1],["YF",12,8,1],["YF",7,11,1],["YF",10,11,1],["YW",13,0,1],["YW",5,1,7],["YW",11,1,4],["YW",5,2,6],["YW",7,2,5],["YW",11,2,19],["YW",5,3,9],["YW",7,3,5],["YW",11,3,26],["YW",7,4,28],["YW",7,5,4],["YW",7,9,1],["YW",7,10,4],["YW",7,11,5],["YW",7,12,1],["YW",10,12,15],["KF",14,1,5],["KF",14,2,1],["KF",11,12,2],["KW",11,13,3]],"o":"YYYYKYYYYNKYYYYYY","oc":[418,116],"e":[["c",10,12,""]],"c":[["SPAWN W 7 11 4","MOVE 9 12 W 6 R","MOVE 9 12 W 8 R","MOVE 13 1 W 1 U","MOVE 7 11 W 1 D","MOVE 7 10 W 1 D","MOVE 7 10 W 1 U","MOVE 7 10 W 4 D","MOVE 7 9 W 4 D","MOVE 11 2 W 4 U","MOVE 11 3 W 19 U","MOVE 11 4 W 26 U","MOVE 7 6 W 4 U","MOVE 7 5 W 28 U","MOVE 7 4 W 5 U","MOVE 6 2 W 5 R","MOVE 5 4 W 9 U","MOVE 5 2 W 7 U","MOVE 4 2 W 6 R","MOVE 11 1 F 1 U","MOVE 11 8 F 1 R","MOVE 10 4 F 1 D"],["SPAWN W 3","MOVE 14 0 F 5 D","MOVE 14 1 F 1 D","MOVE 11 12 F 2 L","MOVE 11 13 F 2 U"]]},{"r":[15,16],"u":[["YF",12,0,1],["YF",6,2,1],["YF",0,5,1],["YF",10,6,1],["YF",5,8,1],["YF",13,8,1],["YF",7,11,1],["YF",10,11,1],["YW",7,1,5],["YW",11,1,19],["YW",12,1,4],["YW",13,1,1],["YW",5,2,16],["YW",6,2,6],["YW",7,2,5],["YW",11,2,26],["YW",7,3,28],["YW",11,3,7],["YW",7,4,4],["YW",7,9,2],["YW",7,10,1],["YW",7,11,2],["YW",7,12,6],["YW",10,12,1],["YW",11,12,11],["KF",14,2,5],["KF",14,3,1],["KF",11,13,2]],"o":"YYYYKYYYYNKYYYYYY","oc":[444,118],"e":[["c",10,12,""],["c",11,12,""]],"c":[["SPAWN W 7 11 4","MOVE 10 12 W 9 R","MOVE 10 12 W 5 R","MOVE 7 11 W 5 D","MOVE 7 10 W 1 U","MOVE 7 10 W 2 D","MOVE 7 10 W 1 U","MOVE 13 0 W 1 D","MOVE 11 2 W 19 U","MOVE 11 1 W 4 R","MOVE 7 9 W 1 D","MOVE 11 3 W 26 U","MOVE 11 4 W 7 U","MOVE 7 2 W 5 U","MOVE 7 5 W 4 U","MOVE 7 4 W 28 U","MOVE 7 3 W 5 U","MOVE 5 2 W 6 R","MOVE 5 3 W 9 U","MOVE 5 1 W 7 D","MOVE 11 0 F 1 R","MOVE 12 8 F 1 R","MOVE 10 5 F 1 D"],["SPAWN F 2","MOVE 11 13 W 3 U","MOVE 14 1 F 5 D","MOVE 14 2 F 1 D","MOVE 11 12 F 2 L"]]},{"r":[15,12],"u":[["YF",13,0,1],["YF",6,2,1],["YF",0,5,1],["YF",10,7,1],["YF",5,8,1],["YF",14,8,1],["YF",7,11,1],["YF",10,11,1],["YW",6,2,16],["YW",7,2,39],["YW",8,2,5],["YW",11,2,19],["YW",12,2,30],["YW",13,2,1],["YW",7,3,4],["YW",11,3,2],["YW",11,4,8],["YW",11,5,4],["YW",7,10,2],["YW",7,11,1],["YW",7,12,2],["YW",8,12,6],["YW",10,12,1],["YW",11,13,8],["KF",14,3,5],["KF",14,4,1],["KF",11,12,2]],"o":"YYYYKYYYYNKYYYYYY","oc":[470,120],"e":[["c",11,13,""]],"c":[["SPAWN W 7 11 4","MOVE 11 4 W 1 U","MOVE 11 4 W 1 U","MOVE 11 4 W 4 D","MOVE 11 12 W 5 D","MOVE 11 12 W 6 D","MOVE 11 3 W 7 D","MOVE 11 2 W 26 R","MOVE 13 1 W 1 D","MOVE 11 1 W 19 D","MOVE 7 12 W 6 R","MOVE 12 1 W 4 D","MOVE 7 11 W 2 D","MOVE 7 3 W 28 U","MOVE 7 10 W 1 D","MOVE 7 2 W 5 R","MOVE 7 4 W 4 U","MOVE 7 9 W 2 D","MOVE 6 2 W 6 R","MOVE 7 1 W 5 D","MOVE 5 2 W 16 R","MOVE 12 0 F 1 R","MOVE 13 8 F 1 R","MOVE 10 6 F 1 D"],["SPAWN W 3","SPAWN F 1","MOVE 14 2 F 5 D","MOVE 14 3 F 1 D","MOVE 11 13 F 2 U"]]},{"r":[14,13],"u":[["YF",14,0,1],["YF",6,2,1],["YF",0,5,1],["YF",14,7,1],["YF",5,8,1],["YF",10,8,1],["YF",7,11,1],["YF",10,11,1],["YW",6,3,16],["YW",7,3,39],["YW",8,3,9],["YW",11,3,20],["YW",12,3,30],["YW",13,3,1],["YW",10,4,1],["YW",11,4,7],["YW",12,4,1],["YW",11,5,11],["YW",7,11,2],["YW",7,12,3],["YW",9,12,6],["YW",10,12,1],["YW",11,12,5],["KF",13,4,1],["KF",14,4,5]],"o":"YYYYKYYYYNNYYYYYY","oc":[496,121],"e":[["c",10,12,""],["c",11,13,""],["n",14,0,"Y"]],"c":[["SPAWN W 7 11 4","MOVE 11 4 W 1 L","MOVE 11 4 W 1 U","MOVE 11 4 W 1 R","MOVE 11 4 W 5 D","MOVE 11 4 W 1 D","MOVE 11 4 W 5 D","MOVE 11 13 W 1 U","MOVE 11 13 W 4 U","MOVE 8 12 W 6 R","MOVE 11 5 W 4 U","MOVE 11 3 W 2 D","MOVE 7 11 W 1 D","MOVE 11 2 W 19 D","MOVE 7 10 W 2 D","MOVE 13 2 W 1 D","MOVE 12 2 W 30 D","MOVE 8 2 W 5 D","MOVE 7 3 W 4 R","MOVE 7 2 W 39 D","MOVE 6 2 W 16 D","MOVE 13 0 F 1 R","MOVE 14 8 F 1 U","MOVE 10 7 F 1 D"],["SPAWN W 3","MOVE 14 3 F 5 D","MOVE 14 4 F 1 L","MOVE 11 12 F 2 L"]]},{"r":[12,14],"u":[["YF",14,0,1],["YF",6,2,1],["YF",0,5,1],["YF",14,6,1],["YF",5,8,1],["YF",10,9,1],["YF",7,11,1],["YF",10,11,1],["YW",7,3,16],["YW",8,3,39],["YW",9,3,9],["YW",10,4,2],["YW",11,4,34],["YW",12,4,32],["YW",13,4,2],["YW",11,5,8],["YW",7,10,2],["YW",7,11,3],["YW",9,11,6],["YW",11,12,1],["YW",11,13,2]],"o":"YYYYNYYYYNYYYYYYY","oc":[523,121],"e":[["c",11,13,""],["c",12,4,""],["c",13,4,""],["p",14,0,"Y"],["n",14,6,"Y"]],"c":[["SPAWN W 7 11 4","MOVE 11 4 W 1 L","MOVE 11 4 W 1 R","MOVE 11 4 W 1 R","MOVE 11 4 W 8 D","MOVE 11 3 W 20 D","MOVE 11 5 W 11 U","MOVE 11 12 W 5 D","MOVE 13 3 W 1 D","MOVE 12 4 W 1 R","MOVE 12 3 W 30 D","MOVE 10 12 W 1 R","MOVE 8 3 W 9 R","MOVE 9 12 W 6 U","MOVE 7 3 W 39 R","MOVE 6 3 W 16 R","MOVE 7 12 W 3 U","MOVE 7 11 W 2 U","MOVE 14 7 F 1 U","MOVE 10 8 F 1 D"],["SPAWN W 3","MOVE 13 4 F 1 L","MOVE 14 4 F 5 L"]]}]};
+const BENCH=[["lv1", "Y", 0, "instant", 41, 33, 0], ["lv1", "K", 0, "instant", 36, 0, 33], ["lv1", "Y", 1, "instant", 33, 34, 0], ["lv1", "K", 1, "instant", 39, 0, 33], ["lv1", "Y", 2, "instant", 31, 41, 0], ["lv1", "K", 2, "instant", 33, 0, 41], ["lv1", "Y", 3, "instant", 85, 32, 0], ["lv1", "K", 3, "instant", 28, 0, 31], ["lv1", "Y", 4, "instant", 33, 45, 0], ["lv1", "K", 4, "instant", 62, 0, 41], ["lv1", "Y", 5, "instant", 105, 32, 0], ["lv1", "K", 5, "instant", 32, 0, 32], ["lv1", "Y", 6, "instant", 23, 33, 0], ["lv1", "K", 6, "instant", 31, 0, 32], ["lv1", "Y", 7, "instant", 36, 35, 0], ["lv1", "K", 7, "instant", 29, 0, 34], ["lv1", "Y", 8, "instant", 38, 34, 0], ["lv1", "K", 8, "instant", 83, 0, 32], ["lv1", "Y", 9, "instant", 110, 35, 0], ["lv1", "K", 9, "instant", 82, 0, 35], ["lv2", "Y", 0, "instant", 34, 35, 0], ["lv2", "K", 0, "instant", 41, 0, 33], ["lv2", "Y", 1, "instant", 42, 33, 0], ["lv2", "K", 1, "instant", 80, 0, 34], ["lv2", "Y", 2, "instant", 38, 41, 0], ["lv2", "K", 2, "instant", 34, 0, 41], ["lv2", "Y", 3, "instant", 44, 32, 0], ["lv2", "K", 3, "instant", 85, 0, 31], ["lv2", "Y", 4, "instant", 52, 45, 0], ["lv2", "K", 4, "instant", 50, 0, 45], ["lv2", "Y", 5, "instant", 104, 31, 0], ["lv2", "K", 5, "instant", 34, 0, 31], ["lv2", "Y", 6, "instant", 45, 34, 0], ["lv2", "K", 6, "instant", 32, 0, 34], ["lv2", "Y", 7, "instant", 39, 35, 0], ["lv2", "K", 7, "instant", 36, 0, 34], ["lv2", "Y", 8, "instant", 66, 34, 0], ["lv2", "K", 8, "instant", 58, 0, 34], ["lv2", "Y", 9, "instant", 67, 35, 0], ["lv2", "K", 9, "instant", 44, 0, 35]];
+</script>
+<script>
+(function(){
+const $=s=>document.querySelector(s);
+const cssv=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const GL={PLAZA:'광',HALL:'학',LIBRARY:'도',ENG:'공',HOSPITAL:'병',STATION:'역',WATCH:'방',DEPOT:'보'};
+const BN={PLAZA:'중앙광장',HALL:'학생회관',LIBRARY:'도서관',ENG:'공학관',HOSPITAL:'병원',STATION:'역',WATCH:'방송국',DEPOT:'보급소'};
+const KN={F:'깃발병',W:'전투병',S:'정찰병'};
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const tip=$('#tip');
+function showTip(html,e){tip.innerHTML=html;tip.hidden=false;const w=tip.offsetWidth,h=tip.offsetHeight;let x=e.clientX+14,y=e.clientY+14;if(x+w>innerWidth-8)x=e.clientX-w-14;if(y+h>innerHeight-8)y=e.clientY-h-14;tip.style.left=x+'px';tip.style.top=y+'px';}
+function hideTip(){tip.hidden=true;}
+
+/* ---------- buildings grid ---------- */
+const BLD=[
+ ['PLAZA','중앙광장','정중앙에 1개, 항상 3점. 점령 비용이 단계마다 4로 두 배입니다.','점수 3 고정'],
+ ['HALL','학생회관','매 턴 자원 +2. 초반에 먹을수록 오래 이득입니다.','전투 후·점령 전 소유권 기준 → 새로 먹으면 다음 턴부터'],
+ ['LIBRARY','도서관','점령 단계 비용 −1 (최소 1). 2개를 가져도 −1.','점령 단계 진입 시점 소유권으로 고정'],
+ ['ENG','공학관','전투병 비용 −1, 최소 2. 신촌은 공학원, 안암은 정보관.','생산 단계 소유권'],
+ ['HOSPITAL','병원','그 건물에서 SPAWN 가능. 전선 가까이에서 병력을 뽑습니다.','생산 단계 소유권'],
+ ['STATION','역','아군 역이 2개 이상이면 TELE로 턴당 1회, 5명까지 순간이동.','이동 단계 소유권 → 이번 턴 점령한 역은 아직 못 씀'],
+ ['WATCH','방송국','체비쇼프 거리 3 이내 건물 점수를 즉시·영구 공개.','점령 직후 정보 공개 단계, 새로 먹은 턴에도 적용'],
+ ['DEPOT','보급소','처음 점령할 때 자원 +15. 팀별로 건물당 1회.','모든 점령 처리 후 지급 → 같은 턴 추가 점령엔 못 씀'],
+];
+$('#bldGrid').innerHTML=BLD.map(b=>`<div class="panel bld"><div class="glyph">${GL[b[0]]}</div><div><h3>${b[1]}<span class="code">${b[0]}</span></h3><p>${b[2]}</p><p class="when">${b[3]}</p></div></div>`).join('');
+
+/* ---------- combat sim ---------- */
+const st={yF:1,yW:2,kF:0,kW:1,own:'K'};
+function renderSim(){
+  for(const k of ['yF','yW','kF','kW'])$('#'+k).textContent=st[k];
+  document.querySelectorAll('#ownSeg button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.o===st.own));
+  let {yF,yW,kF,kW,own}=st; const L=[]; const T={Y:'<b class="y">연세</b>',K:'<b class="k">고려</b>'};
+  const bld=own!=='-';
+  if(!(yF||yW)||!(kF||kW)){L.push(['—','한 팀만 있어 전투가 일어나지 않습니다.']);}
+  else{
+    const m=Math.min(yW,kW);
+    if(yW||kW){L.push(['C1',m?`전투병 ${m}명씩 상쇄 → ${T.Y} 전투병 ${yW-m}, ${T.K} 전투병 ${kW-m}`:'한쪽만 전투병이 있어 상쇄할 것이 없습니다.']);}
+    yW-=m;kW-=m;
+    if(yW>0&&kF>0){L.push(['C2',`${T.Y} 전투병이 남아 ${T.K} 깃발병 ${kF}명 전원 제거`]); if(own==='K'){L.push(['뽑힘',`${T.K} 소유 건물 위의 깃발병이 죽어 건물이 즉시 <b>중립</b>이 됩니다.`]);own='N';} kF=0;}
+    else if(kW>0&&yF>0){L.push(['C2',`${T.K} 전투병이 남아 ${T.Y} 깃발병 ${yF}명 전원 제거`]); if(own==='Y'){L.push(['뽑힘',`${T.Y} 소유 건물 위의 깃발병이 죽어 건물이 즉시 <b>중립</b>이 됩니다.`]);own='N';} yF=0;}
+    else if(!yW&&!kW){L.push(['C3','양쪽 전투병이 0이라 깃발병은 서로 해치지 못합니다.']);}
+    else L.push(['C2','남은 전투병이 제거할 상대 깃발병이 없습니다.']);
+  }
+  let v;
+  if(!bld){v=`생존: ${T.Y} F${yF}·W${yW} / ${T.K} F${kF}·W${kW}. 건물이 없어 점령은 없습니다.`;}
+  else if(yF&&kF){L.push(['점령','양 팀 깃발병이 함께 있어 <b>경합</b>. 이번 턴 점령은 양쪽 모두 멈춥니다.']);v='경합: 아무도 점령하지 못함';}
+  else if(yF||kF){const t=yF?'Y':'K',o=t==='Y'?'K':'Y';
+    if(own===t){L.push(['점령',`${T[t]}의 건물 그대로 유지. 추가 비용 없음.`]);v=`${t==='Y'?'연세':'고려'} 소유 유지`;}
+    else if(own==='N'){L.push(['점령',`살아남은 ${T[t]} 깃발병이 비용 2를 내고 중립 건물을 차지합니다.`]);v=`${t==='Y'?'연세':'고려'}가 이번 턴에 점령`+(st.own===o?' (전투로 중립화된 뒤 같은 턴 점령)':'');}
+    else{L.push(['점령',`상대 건물이라 이번 턴은 1단계(비용 2)로 <b>중립화</b>만. 다음 턴에 한 번 더 점령해야 합니다.`]);v='중립화만 진행, 소유는 다음 턴';}
+  }else{v=own==='N'?'건물은 중립으로 남음':`건물 소유자: ${own==='Y'?'연세':'고려'}`;}
+  $('#simLog').innerHTML=L.map(([a,b])=>`<li><span class="tag">${a}</span><span>${b}</span></li>`).join('');
+  $('#simVerdict').innerHTML=v;
+}
+document.querySelectorAll('.step button').forEach(b=>b.addEventListener('click',()=>{const k=b.dataset.k;st[k]=Math.max(0,Math.min(9,st[k]+ +b.dataset.d));renderSim();}));
+document.querySelectorAll('#ownSeg button').forEach(b=>b.addEventListener('click',()=>{st.own=b.dataset.o;renderSim();}));
+document.querySelectorAll('.presets .chip').forEach(b=>b.addEventListener('click',()=>{const p=b.dataset.p.split(',');st.yF=+p[0];st.yW=+p[1];st.kF=+p[2];st.kW=+p[3];st.own=p[4];renderSim();}));
+renderSim();
+
+/* ---------- bots ---------- */
+const BOTS=[
+ {id:'cpp',name:'C++ 템플릿',file:'cpp_sample/main.cpp',lvl:0,sum:'입출력만 갖춘 뼈대. TODO 두 곳을 채우라는 출발점입니다.',
+  how:['자원이 5 이상이면 본진에서 깃발병 1명을 뽑습니다.','깃발병은 U → D → L → R 중 처음으로 갈 수 있는 방향으로 무작정 한 칸 움직입니다.','상대 건물 위에 서 있으면 멈춰서 점령을 기다립니다.','<code>protocol.hpp</code>가 파싱·END·flush를 처리하고, <code>search.hpp</code>에 BFS와 점령비 계산이 준비되어 있습니다.'],
+  weak:['목표가 없어서 대부분 벽이나 맵 끝을 향해 갑니다.','전투병이 없어 상대가 전투병 1명만 보내도 전부 잃습니다.','C++ 예제 lv1·lv2는 <code>dev_tools/bots/dist/starter/cpp/</code>에 있고 Python과 같은 로직입니다.'],
+  code:`<span class="kw">if</span> (view.my_resource >= contract::F_COST)
+    commands.push_back(p::<span class="fn">spawn</span>("F", 1));
+<span class="kw">for</span> (<span class="kw">auto</span>& unit : view.my_units(init, "F")) {
+    <span class="c">// 상대 건물 위라면 점령을 위해 대기</span>
+    <span class="c">// TODO: 첫 통행 가능 방향 대신 목표까지의 경로를 선택</span>
+    <span class="kw">for</span> (dir : {"U","D","L","R"}) <span class="kw">if</span> (passable) { move; <span class="kw">break</span>; }
+}`},
+ {id:'lv1',name:'예제 lv1',file:'py_sample/example_lv1.py',lvl:1,sum:'깃발병만 뽑아 가까운 중립 건물로 달려가는 순수 확장형.',
+  how:['점령비를 남기고 나머지 돈을 모두 깃발병에 씁니다. 돈 10이면 매 턴 1~2명.','각 깃발병 무리는 BFS로 가장 가까운 <b>중립</b> 건물을 향해 한 칸 움직입니다.','같은 칸의 깃발병은 한 덩어리로 같은 방향으로 움직입니다.','점령이 끝난 건물은 목표에서 빠지므로 다음 중립 건물로 이동합니다.'],
+  weak:['전투병이 없습니다. lv2의 전투병 3명에게 깃발병이 모두 잡힙니다.','상대가 가진 건물은 목표로 삼지 않아 한번 빼앗긴 건물을 되찾지 않습니다.','본진에서 나온 깃발병이 같은 칸에 몰려 모두 같은 건물로 향합니다.','점령한 건물 위에 서 있다가 잡히면 건물까지 잃습니다.'],
+  code:`n = (my_resource - capture_reserve(view)) // 5
+<span class="kw">if</span> n: commands.append(<span class="fn">spawn</span>("F", n))
+targets = {중립 건물 좌표}
+<span class="kw">for</span> u <span class="kw">in</span> my_units("F"):
+    step = <span class="fn">bfs</span>((u.x, u.y), targets, init)
+    <span class="kw">if</span> step: commands.append(<span class="fn">move</span>(..., "F", u.count, step))`},
+ {id:'lv2',name:'예제 lv2',file:'py_sample/example_lv2.py',lvl:2,sum:'전투병 3명을 붙여 상대 깃발병을 사냥하는 균형형.',
+  how:['전투병을 3명까지 먼저 채우고(공학관이 있으면 할인), 남은 돈으로 깃발병을 뽑습니다.','전투병은 가장 가까운 <b>적 깃발병</b>을 쫓고, 적 깃발병이 없으면 점령 목표 쪽으로 갑니다.','깃발병 목표는 상대 건물까지 포함한 비소유 건물. 단 적 깃발병이 서 있는 칸은 경합이 되므로 피합니다.','점수는 쓰지 않고 거리만으로 목표를 고릅니다.'],
+  weak:['전투병 상한이 3명 고정이라 상대가 4명을 모으면 이길 수 없습니다.','깃발병이 적 전투병 옆을 그대로 지나가 잡힙니다.','전투병과 깃발병이 따로 움직여 호위가 되지 않습니다.','병원·역·도서관 같은 건물 기능을 일부러 노리지 않습니다.'],
+  code:`make_w = min(max(0, 3 - nw), budget // wc)  <span class="c"># 전투병 최대 3명</span>
+make_f = (budget - make_w*wc) // 5
+warrior_goals = enemy_flags <span class="kw">or</span> live       <span class="c"># 적 깃발 추격</span>
+live = 비소유 건물 - 적 깃발병 칸            <span class="c"># 경합 회피</span>
+<span class="kw">for</span> u <span class="kw">in</span> flags: move toward <span class="fn">bfs</span>(u, live)`},
+ {id:'codex',name:'Codex 봇',file:'py_sample/strategy.py → out/koyeon-bot.zip',lvl:4,sum:'분산 점령, 경제 건물 선점, 위험 회피, 임무별 전투병 배정.',
+  how:['깃발병 최대 8명이 <b>서로 다른 건물</b>을 맡습니다. 초반엔 학생회관·공학관·병원 같은 경제 건물의 가치를 높게 봅니다.','남은 돈은 전부 전투병으로 바꿔 적 깃발 제거·방어·호위 임무에 "적보다 1명 많게" 배정합니다.','적 전투병이 다음 턴 닿을 수 있는 칸과 상대가 즉시 생산할 수 있는 병력을 위험으로 보고 깃발병을 돌려 보냅니다.','점령한 병원에서 전방 생산하고, 역 2개가 있으면 전투병을 순간이동시킵니다. 마지막 턴에는 적 건물 중립화까지 노립니다.'],
+  weak:['상대 수를 탐색하지 않는 1수 휴리스틱입니다. 가중치(15, 20, 1.22 등)는 예제 대전으로만 맞췄습니다.','전투병을 한곳에 오래 모으거나 여러 전선에 나누는 판단이 약합니다(README 기재).','정찰병과 방송국을 거의 쓰지 않아 숨은 점수를 추정에 의존합니다.','비슷한 수준의 상대(자가 대전)와는 17:15처럼 근소한 판정승이 됩니다.'],
+  code:`<span class="kw">def</span> <span class="fn">decide</span>(self, view):
+    threat = risk_map(적 전투병, 적 생산지, 상대 자원)
+    <span class="c"># 1. 깃발병마다 다른 건물 배정 (value / (dist+3+delay))</span>
+    <span class="c"># 2. 점령비 - 수입 10 예약, 깃발병 ≤ 8명 생산</span>
+    <span class="c"># 3. 임무(적 깃발·방어·호위·본진 압박)에 need = 위협+1</span>
+    make_w = budget // wc                  <span class="c"># 남은 돈 전부 전투병</span>
+    <span class="c"># 4. 전투병 도착 위치 반영해 깃발병 안전 경로 재계산</span>
+    commands.append(<span class="fn">priority</span>(가치순 목표))`},
+];
+function renderBot(id){
+  const b=BOTS.find(x=>x.id===id);
+  document.querySelectorAll('.botcard').forEach(c=>c.setAttribute('aria-selected',c.dataset.id===id));
+  $('#botDetail').innerHTML=`<div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline;margin-bottom:14px"><h3 style="font-size:20px">${b.name}</h3><code class="small muted">${b.file}</code></div>
+  <div class="botdetail"><div><p class="eyebrow" style="margin-bottom:8px">어떻게 움직이나</p><ul class="pro">${b.how.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+  <div><p class="eyebrow" style="margin-bottom:8px">약점과 메모</p><ul class="con">${b.weak.map(x=>`<li>${x}</li>`).join('')}</ul></div></div>
+  <p class="eyebrow" style="margin:18px 0 8px">핵심 로직 (요약)</p><pre class="code">${b.code}</pre>`;
+}
+$('#botTabs').innerHTML=BOTS.map(b=>`<button type="button" role="tab" class="botcard" data-id="${b.id}" aria-selected="false"><span class="f">${b.file.split(' ')[0]}</span><b>${b.name}</b><span class="s">${b.sum}</span><span class="lvl" aria-label="복잡도 ${b.lvl}/4">${[1,2,3,4].map(i=>`<i class="${i<=b.lvl?'on':''}"></i>`).join('')}</span></button>`).join('');
+document.querySelectorAll('.botcard').forEach(c=>c.addEventListener('click',()=>renderBot(c.dataset.id)));
+renderBot('codex');
+
+/* ---------- bonus bars ---------- */
+const BON=[['ENG','공학관',20],['HALL','학생회관',15],['HOSPITAL','병원',10],['DEPOT','보급소',8],['LIBRARY','도서관',5],['STATION','역',1],['WATCH','방송국',1]];
+$('#bonusBars').innerHTML=BON.map(([k,n,v])=>`<div class="r"><span>${n}</span><span class="bar" style="width:${v/20*100}%"></span><span class="v">${v}</span></div>`).join('');
+
+/* ---------- svg helpers ---------- */
+const NS='http://www.w3.org/2000/svg';
+function el(tag,attrs,parent){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e;}
+
+/* econ chart */
+(function(){
+  const s=$('#econChart'),W=520,H=220,m={l:40,r:16,t:16,b:34};
+  const X=t=>m.l+(t-1)/159*(W-m.l-m.r),Y=v=>H-m.b-v*(H-m.t-m.b);
+  const w=t=>Math.max(0,Math.min(1,(130-t)/80));
+  for(const v of [0,.5,1]){el('line',{x1:m.l,x2:W-m.r,y1:Y(v),y2:Y(v),class:v?'grid':'axis'},s);el('text',{x:m.l-8,y:Y(v)+4,'text-anchor':'end'},s).textContent=v;}
+  for(const t of [1,50,100,130,160]){el('text',{x:X(t),y:H-m.b+18,'text-anchor':'middle'},s).textContent=t;}
+  el('text',{x:W-m.r,y:H-4,'text-anchor':'end'},s).textContent='턴';
+  let d='';for(let t=1;t<=160;t++)d+=(t===1?'M':'L')+X(t).toFixed(1)+','+Y(w(t)).toFixed(1);
+  el('path',{d:d+`L${X(160)},${Y(0)}L${X(1)},${Y(0)}Z`,fill:'var(--gold)',opacity:.12},s);
+  el('path',{d,fill:'none',stroke:'var(--gold)','stroke-width':2},s);
+  for(const [t,lab] of [[50,'50턴: 감소 시작'],[130,'130턴: 0']]){el('circle',{cx:X(t),cy:Y(w(t)),r:4,fill:'var(--gold)',stroke:'var(--surface)','stroke-width':2},s);const tx=el('text',{x:X(t)+(t===130?-6:6),y:Y(w(t))-10,'text-anchor':t===130?'end':'start'},s);tx.textContent=lab;tx.style.fill='var(--ink-2)';}
+  const cur=el('line',{y1:m.t,y2:H-m.b,stroke:'var(--ink-3)','stroke-width':1,opacity:0},s);
+  const dot=el('circle',{r:5,fill:'var(--gold)',stroke:'var(--surface)','stroke-width':2,opacity:0},s);
+  el('rect',{x:m.l,y:m.t,width:W-m.l-m.r,height:H-m.t-m.b,fill:'transparent'},s);
+  s.addEventListener('pointermove',e=>{const r=s.getBoundingClientRect();const px=(e.clientX-r.left)/r.width*W;const t=Math.round(Math.max(1,Math.min(160,1+(px-m.l)/(W-m.l-m.r)*159)));
+    cur.setAttribute('x1',X(t));cur.setAttribute('x2',X(t));cur.setAttribute('opacity',1);dot.setAttribute('cx',X(t));dot.setAttribute('cy',Y(w(t)));dot.setAttribute('opacity',1);
+    showTip(`<b>${t}턴</b> · w = ${w(t).toFixed(2)}<br>공학관 보너스 ${(20*w(t)).toFixed(1)} · 학생회관 ${(15*w(t)).toFixed(1)}`,e);});
+  s.addEventListener('pointerleave',()=>{cur.setAttribute('opacity',0);dot.setAttribute('opacity',0);hideTip();});
+})();
+
+/* bench chart */
+(function(){
+  const s=$('#benchChart'),W=520,H=150,m={l:40,r:16,t:14,b:30};
+  const X=t=>m.l+t/120*(W-m.l-m.r);const rows={lv1:48,lv2:96};
+  for(const t of [0,30,60,90,120]){el('line',{x1:X(t),x2:X(t),y1:m.t,y2:H-m.b,class:'grid'},s);el('text',{x:X(t),y:H-m.b+16,'text-anchor':'middle'},s).textContent=t;}
+  el('text',{x:W-m.r,y:H-2,'text-anchor':'end'},s).textContent='종료 턴';
+  for(const r in rows)el('text',{x:m.l-8,y:rows[r]+4,'text-anchor':'end'},s).textContent=r;
+  BENCH.forEach(([opp,side,seed,reason,turns,sy,sk])=>{
+    const y=rows[opp]+(side==='Y'?-9:9);
+    const c=el('circle',{cx:X(turns),cy:y,r:5,fill:side==='Y'?'var(--y)':'var(--k)',stroke:'var(--surface)','stroke-width':2},s);
+    const hit=el('circle',{cx:X(turns),cy:y,r:9,fill:'transparent'},s);
+    hit.addEventListener('pointermove',e=>{c.setAttribute('r',7);showTip(`상대 ${opp} · Codex=${side} · 시드 ${seed}<br><b>${turns}턴 즉시 승리</b> · ${side==='Y'?sy:sk} : ${side==='Y'?sk:sy}`,e);});
+    hit.addEventListener('pointerleave',()=>{c.setAttribute('r',5);hideTip();});
+  });
+})();
+
+/* ---------- board renderer ---------- */
+function palette(){return{board:cssv('--board'),line:cssv('--line-2'),wall:cssv('--wall'),y:cssv('--y'),k:cssv('--k'),ys:cssv('--y-soft'),ks:cssv('--k-soft'),s2:cssv('--surface-2'),ink:cssv('--ink'),ink2:cssv('--ink-2'),ink3:cssv('--ink-3'),gold:cssv('--gold'),hot:cssv('--hot'),surf:cssv('--surface')};}
+function prep(rep){
+  rep.turns.forEach((t,i)=>{if(t.turn==null)t.turn=i+1;});
+  rep.bidx={};rep.buildings.forEach((b,i)=>rep.bidx[b[0]+','+b[1]]=i);
+  rep.total=rep.buildings.reduce((a,b)=>a+b[3],0);
+  rep.scores=rep.turns.map(t=>{let y=0,k=0;for(let i=0;i<t.o.length;i++){if(t.o[i]==='Y')y+=rep.buildings[i][3];else if(t.o[i]==='K')k+=rep.buildings[i][3];}return[y,k];});
+}
+prep(HERO);
+function draw(canvas,rep,ti){
+  const P=palette();const dpr=window.devicePixelRatio||1;const Wd=canvas.clientWidth;if(!Wd)return;
+  canvas.width=Math.round(Wd*dpr);canvas.height=Math.round(Wd*dpr);
+  const g=canvas.getContext('2d');g.setTransform(dpr,0,0,dpr,0,0);const cs=Wd/15;
+  g.fillStyle=P.board;g.fillRect(0,0,Wd,Wd);
+  g.strokeStyle=P.line;g.lineWidth=1;
+  for(let i=0;i<=15;i++){g.beginPath();g.moveTo(i*cs+.5,0);g.lineTo(i*cs+.5,Wd);g.stroke();g.beginPath();g.moveTo(0,i*cs+.5);g.lineTo(Wd,i*cs+.5);g.stroke();}
+  const t=rep.turns[ti];const own=t?t.o:'N'.repeat(17);
+  const rr=(x,y,w,h,r)=>{g.beginPath();g.roundRect?g.roundRect(x,y,w,h,r):g.rect(x,y,w,h);};
+  rep.terrain.forEach((row,y)=>{for(let x=0;x<15;x++){const ch=row[x];
+    if(ch==='#'){g.fillStyle=P.wall;rr(x*cs+2,y*cs+2,cs-4,cs-4,3);g.fill();}
+  }});
+  rep.buildings.forEach((b,i)=>{const [x,y,type,score]=b;const o=own[i];
+    g.fillStyle=o==='Y'?P.ys:o==='K'?P.ks:P.s2;rr(x*cs+2,y*cs+2,cs-4,cs-4,3);g.fill();
+    g.strokeStyle=o==='Y'?P.y:o==='K'?P.k:P.ink3;g.lineWidth=o==='N'?1.2:2;g.stroke();
+    g.fillStyle=o==='Y'?P.y:o==='K'?P.k:P.ink2;g.font=`700 ${Math.max(8,cs*.28)}px "IBM Plex Sans KR",sans-serif`;g.textAlign='left';g.textBaseline='top';g.fillText(GL[type],x*cs+cs*.12,y*cs+cs*.08);
+    g.fillStyle=P.gold;g.textAlign='right';g.font=`600 ${Math.max(7,cs*.24)}px "IBM Plex Mono",monospace`;g.fillText(score,x*cs+cs*.9,y*cs+cs*.1);
+  });
+  for(const tm of ['Y','K']){const [x,y]=rep.bases[tm];g.fillStyle=tm==='Y'?P.y:P.k;rr(x*cs+2,y*cs+2,cs-4,cs-4,4);g.fill();
+    g.fillStyle=P.surf;g.font=`700 ${Math.max(8,cs*.3)}px "IBM Plex Sans KR",sans-serif`;g.textAlign='center';g.textBaseline='top';g.fillText('본진',x*cs+cs/2,y*cs+cs*.08);}
+  if(!t)return;
+  const cells={};for(const [tk,x,y,c] of t.u){(cells[x+','+y]=cells[x+','+y]||[]).push([tk[0],tk[1],c]);}
+  for(const key in cells){const [x,y]=key.split(',').map(Number);const list=cells[key];
+    const teams=[...new Set(list.map(u=>u[0]))];
+    teams.forEach((tm,ri)=>{const us=list.filter(u=>u[0]===tm);const cy=y*cs+(teams.length===1?cs*.64:(ri===0?cs*.5:cs*.8));
+      us.forEach((u,ci)=>{const n=us.length;const cx=x*cs+cs*(n===1?.5:n===2?(ci?.72:.28):(.2+ci*.3));const r=cs*(n>=3?.13:.16);
+        g.fillStyle=tm==='Y'?P.y:P.k;g.strokeStyle=P.surf;g.lineWidth=1.2;
+        if(u[1]==='W'){g.beginPath();g.arc(cx,cy,r,0,Math.PI*2);g.fill();g.stroke();}
+        else if(u[1]==='F'){g.beginPath();g.rect(cx-r,cy-r*.8,r*2,r*1.6);g.fill();g.stroke();g.strokeStyle=P.ink;g.lineWidth=1.3;g.beginPath();g.moveTo(cx-r,cy-r*1.1);g.lineTo(cx-r,cy+r*1.2);g.stroke();}
+        else{g.beginPath();g.moveTo(cx,cy-r*1.2);g.lineTo(cx+r*1.2,cy);g.lineTo(cx,cy+r*1.2);g.lineTo(cx-r*1.2,cy);g.closePath();g.fill();g.stroke();}
+        g.fillStyle='#fff';g.font=`700 ${Math.max(7,r*1.25)}px "IBM Plex Mono",monospace`;g.textAlign='center';g.textBaseline='middle';g.fillText(u[2],cx,cy+.5);
+      });});
+  }
+  for(const [ty,x,y] of t.e){
+    if(ty==='c'){g.strokeStyle=P.hot;g.setLineDash([4,3]);g.lineWidth=2;}else{g.strokeStyle=P.gold;g.setLineDash([]);g.lineWidth=2.5;}
+    g.strokeRect(x*cs+1.5,y*cs+1.5,cs-3,cs-3);g.setLineDash([]);
+  }
+}
+function cellInfo(rep,ti,x,y){
+  const t=rep.turns[ti];const parts=[`<b>(${x}, ${y})</b>`];
+  const i=rep.bidx[x+','+y];
+  if(rep.terrain[y][x]==='#')parts.push('장애물');
+  for(const tm of ['Y','K']){const b=rep.bases[tm];if(b[0]===x&&b[1]===y)parts.push(`${tm==='Y'?'연세':'고려'} 본진`);}
+  if(i!==undefined){const b=rep.buildings[i];const o=t.o[i];parts.push(`${BN[b[2]]} · ${b[3]}점 · ${o==='N'?'중립':o==='Y'?'연세 소유':'고려 소유'}`);}
+  const us=t.u.filter(u=>u[1]===x&&u[2]===y);
+  if(us.length)parts.push(us.map(u=>`${u[0][0]==='Y'?'연세':'고려'} ${KN[u[0][1]]} ${u[3]}명`).join('<br>'));
+  return parts.join('<br>');
+}
+
+/* ---------- hero autoplay ---------- */
+const heroRep=HERO;let heroTi=reduce?heroRep.turns.length-1:0;const hc=$('#heroCanvas');
+function heroDraw(){const i=Math.min(heroTi,heroRep.turns.length-1);draw(hc,heroRep,i);$('#heroTurn').textContent=`턴 ${heroRep.turns[i].turn} · ${heroRep.scores[i][0]} : ${heroRep.scores[i][1]}`;}
+heroDraw();
+if(!reduce)setInterval(()=>{heroTi=heroTi>=heroRep.turns.length-1+8?0:heroTi+1;if(heroTi<heroRep.turns.length){heroDraw();}},260);
+
+/* ---------- replay viewer ---------- */
+let R=HERO,ti=0,timer=null,reqId=0;
+const rng=$('#rpRange'),cv=$('#rpCanvas');
+HERO.names={Y:'Codex 봇',K:'예제 lv2'};
+let mine=[],mineIdx=-1;
+const nm=t=>R.names[t];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function reasonText(res){return res.reason==='instant'?`${res.turns}턴 즉시 승리`:res.reason==='draw'?'160턴 무승부':res.reason==='score'?`${res.turns}턴 점수 판정`:res.reason==='forfeit'?`${res.turns}턴 몰수`:res.reason;}
+function howText(res){
+  if(res.reason==='instant')return `${res.turns}턴에 즉시 승리 (상대 점수 0, 내 점수 과반)`;
+  if(res.reason==='draw')return `${res.turns}턴 종료, 점수·누적 점령-턴·병력 환산까지 동률`;
+  if(res.reason==='forfeit'){const f=res.forfeit||{};return `${res.turns}턴에 ${f.team==='Y'?'연세':f.team==='K'?'고려':''} 몰수패 (${f.cause||'오류'})`;}
+  return `${res.turns}턴 종료 후 점수 판정`;}
+function renderResult(res,names,extra){
+  const w=res.winner,box=$('#rpResult');
+  box.className='result'+(w==='Y'?' wy':w==='K'?' wk':'');
+  const head=w==='Y'||w==='K'?`<span class="${w==='Y'?'y':'k'}">${w==='Y'?'연세':'고려'} · ${esc(names[w])}</span> 승리`:'무승부';
+  box.innerHTML=`<span class="big">${head}</span><span class="big" style="font-variant-numeric:tabular-nums"><span class="y">${res.score.Y}</span> : <span class="k">${res.score.K}</span></span><span class="sub">${howText(res)} · ${esc(extra)}</span>`;
+}
+function setRep(rep){R=rep;ti=0;rng.max=R.turns.length-1;
+  $('#rpDesc').textContent=(R.file?'':'예시 · ')+`연세 ${nm('Y')} vs 고려 ${nm('K')} · 시드 ${R.seed} 맵 · 총 ${R.turns.length}턴`+(R.file?` · ${R.file}`:'');
+  $('#nmY').textContent='연세 · '+nm('Y');$('#nmK').textContent='고려 · '+nm('K');$('#lgY').textContent='연세 · '+nm('Y');$('#lgK').textContent='고려 · '+nm('K');
+  $('#cmdHY').textContent=`연세 명령 (${nm('Y')})`;$('#cmdHK').textContent=`고려 명령 (${nm('K')})`;
+  $('#total').textContent=`맵 총점 ${R.total}`;buildScore();show();}
+function showSample(){stop();++reqId;mineIdx=-1;renderResult(HERO.result,HERO.names,`예시 경기 · 시드 ${HERO.seed}`);renderMine();setRep(HERO);}
+
+/* ---------- my replays (battle.py --replay) ---------- */
+function convert(r,file){
+  if(!r||!r.map||!r.teams||!r.result||!Array.isArray(r.turns)||!r.turns.length||!r.turns[0].state)throw new Error('리플레이 형식 아님');
+  const T={combat:'c',capture:'p',neutralize:'n'};const byId=(a,b)=>a.id-b.id;
+  const cmd=l=>(l||[]).filter(c=>!c.startsWith('PRIORITY'));
+  const out={seed:r.seed,file,terrain:r.map.terrain,bases:r.map.bases,result:r.result,
+    buildings:[...r.map.buildings].sort(byId).map(b=>[b.x,b.y,b.type,b.score]),
+    names:{Y:(r.teams.Y&&r.teams.Y.name)||'연세 봇',K:(r.teams.K&&r.teams.K.name)||'고려 봇'},
+    turns:r.turns.map(t=>{const s=t.state;return{r:[s.resources.Y,s.resources.K],
+      u:s.units.map(u=>[u[0]+u[1],u[2],u[3],u[4]]),o:[...s.buildings].sort(byId).map(b=>b.owner).join(''),
+      oc:[s.occupation.Y,s.occupation.K],e:(t.events||[]).map(e=>[T[e.type]||'c',e.x,e.y,e.team||'']),
+      c:[cmd(t.commands&&t.commands.Y),cmd(t.commands&&t.commands.K)]};})};
+  prep(out);return out;
+}
+function mineMsg(html){$('#mineMsg').innerHTML=html;}
+async function walkEntry(entry,out){
+  if(entry.isFile){out.push(await new Promise((ok,bad)=>entry.file(f=>{try{Object.defineProperty(f,'relPath',{value:entry.fullPath.replace(/^\//,'')});}catch(e){}ok(f);},bad)));return;}
+  if(entry.isDirectory){const reader=entry.createReader();let batch;
+    do{batch=await new Promise((ok,bad)=>reader.readEntries(ok,bad));for(const e of batch)await walkEntry(e,out);}while(batch.length);}
+}
+async function loadFiles(list){
+  const files=[...list].filter(f=>/\.json$/i.test(f.name));
+  if(!files.length){mineMsg('JSON 파일이 없습니다. <code>battle.py --replay</code>로 저장한 폴더나 파일을 골라 주세요.');return;}
+  mineMsg(`${files.length}개 파일을 읽는 중…`);
+  const skipped=[];let added=[];
+  for(const f of files){const path=f.relPath||f.webkitRelativePath||f.name;
+    try{const rep=convert(JSON.parse(await f.text()),path);const i=mine.findIndex(m=>m.file===path);if(i>=0)mine[i]=rep;else mine.push(rep);added.push(path);}
+    catch(e){skipped.push(f.name);}}
+  const current=mine[mineIdx];
+  mine.sort((a,b)=>(a.seed-b.seed)||a.file.localeCompare(b.file));
+  mineIdx=current?mine.indexOf(current):-1;
+  let msg=added.length?`경기 ${added.length}개를 불러왔습니다. 목록에서 골라 재생하세요.`:'불러온 경기가 없습니다.';
+  if(skipped.length)msg+=` <span class="muted">리플레이가 아니라서 건너뜀: ${skipped.slice(0,4).map(esc).join(', ')}${skipped.length>4?` 외 ${skipped.length-4}개`:''}</span>`;
+  mineMsg(msg);renderMine();
+  if(added.length)playMine(mine.findIndex(m=>m.file===added[0]));
+}
+function renderMine(){
+  const box=$('#mineList');box.hidden=!mine.length;if(!mine.length)return;
+  $('#mineCount').textContent=`불러온 경기 ${mine.length}개`;
+  const tag=w=>w==='Y'?'<span class="pill py">연</span>':w==='K'?'<span class="pill pk">고</span>':'<span class="pill">무</span>';
+  $('#mineBody').innerHTML=mine.map((m,i)=>`<tr tabindex="0" data-i="${i}" class="${i===mineIdx?'on':''}" aria-selected="${i===mineIdx}">
+    <td class="num">${m.seed}</td><td class="y">${esc(m.names.Y)}</td><td class="k">${esc(m.names.K)}</td>
+    <td>${tag(m.result.winner)} <span class="sc">${m.result.score.Y} : ${m.result.score.K}</span></td><td class="muted">${reasonText(m.result)}</td><td class="muted fn">${esc(m.file)}</td></tr>`).join('');
+  $('#mineBody').querySelectorAll('tr').forEach(tr=>{
+    tr.addEventListener('click',()=>playMine(+tr.dataset.i));
+    tr.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();playMine(+tr.dataset.i);}});
+  });
+}
+function playMine(i){
+  if(i<0||!mine[i])return;
+  stop();++reqId;mineIdx=i;
+  const m=mine[i];renderResult(m.result,m.names,`시드 ${m.seed} · ${m.file}`);
+  renderMine();setRep(m);
+}
+$('#pickDir').onclick=()=>$('#dirInput').click();
+$('#pickFiles').onclick=()=>$('#fileInput').click();
+$('#dirInput').onchange=e=>{loadFiles(e.target.files);e.target.value='';};
+$('#fileInput').onchange=e=>{loadFiles(e.target.files);e.target.value='';};
+$('#mineClear').onclick=()=>{mine=[];mineMsg('');showSample();};
+const drop=$('#mine');
+drop.addEventListener('dragover',e=>{e.preventDefault();drop.classList.add('over');});
+drop.addEventListener('dragleave',()=>drop.classList.remove('over'));
+drop.addEventListener('drop',async e=>{e.preventDefault();drop.classList.remove('over');
+  const items=[...(e.dataTransfer.items||[])];
+  if(items.length&&items[0].webkitGetAsEntry){const out=[];for(const it of items){const en=it.webkitGetAsEntry();if(en)await walkEntry(en,out);}loadFiles(out);}
+  else loadFiles(e.dataTransfer.files);});
+
+function show(){
+  const t=R.turns[ti];rng.value=ti;$('#rpTurn').textContent=`턴 ${t.turn} / ${R.turns.length}`;
+  draw(cv,R,ti);
+  const [sy,sk]=R.scores[ti];$('#ptY').textContent=sy;$('#ptK').textContent=sk;
+  const cnt={Y:{F:0,W:0,S:0},K:{F:0,W:0,S:0}};for(const [tk,,,c] of t.u)cnt[tk[0]][tk[1]]+=c;
+  const bl={Y:0,K:0};for(const ch of t.o)if(ch!=='N')bl[ch]++;
+  $('#miniStats').innerHTML=`<span class="h"></span><span class="h r y">연세</span><span class="h r k">고려</span>
+   <span>자원</span><span class="r">${t.r[0]}</span><span class="r">${t.r[1]}</span>
+   <span>보유 건물</span><span class="r">${bl.Y}</span><span class="r">${bl.K}</span>
+   <span>깃발병 / 전투병 / 정찰병</span><span class="r">${cnt.Y.F} / ${cnt.Y.W} / ${cnt.Y.S}</span><span class="r">${cnt.K.F} / ${cnt.K.W} / ${cnt.K.S}</span>
+   <span>누적 점령-턴</span><span class="r">${t.oc[0]}</span><span class="r">${t.oc[1]}</span>`;
+  const EV={c:'전투',p:'점령',n:'중립화'};
+  $('#evList').innerHTML=t.e.length?t.e.map(([ty,x,y,tm])=>{const i=R.bidx[x+','+y];const b=i!==undefined?BN[R.buildings[i][2]]:'';return `<span>${EV[ty]} · (${x}, ${y}) ${b}${tm?` · <b class="${tm==='Y'?'y':'k'}">${tm==='Y'?'연세':'고려'}</b>`:''}</span>`}).join(''):'<span class="muted">없음</span>';
+  $('#cmdY').textContent=t.c[0].join('\n')||'(명령 없음)';$('#cmdK').textContent=t.c[1].join('\n')||'(명령 없음)';
+  moveCursor();
+}
+let sc={};
+function buildScore(){
+  const s=$('#scoreChart');s.innerHTML='';const W=420,H=150,m={l:28,r:10,t:10,b:24};const n=R.turns.length;
+  const mx=Math.max(R.total,1);const X=i=>m.l+(n>1?i/(n-1):0)*(W-m.l-m.r),Y=v=>H-m.b-v/mx*(H-m.t-m.b);
+  const half=Math.floor(R.total/2)+1;
+  for(const v of [0,half,R.total]){el('line',{x1:m.l,x2:W-m.r,y1:Y(v),y2:Y(v),class:v?'grid':'axis'},s);el('text',{x:m.l-6,y:Y(v)+4,'text-anchor':'end'},s).textContent=v;}
+  el('text',{x:W-m.r,y:Y(half)-4,'text-anchor':'end'},s).textContent='과반';
+  for(const i of [0,Math.floor((n-1)/2),n-1])el('text',{x:X(i),y:H-6,'text-anchor':i===0?'start':i===n-1?'end':'middle'},s).textContent=R.turns[i].turn+'턴';
+  for(const [k,c] of [[0,'var(--y)'],[1,'var(--k)']]){let d='';R.scores.forEach((p,i)=>d+=(i?'L':'M')+X(i).toFixed(1)+','+Y(p[k]).toFixed(1));el('path',{d,fill:'none',stroke:c,'stroke-width':2,'stroke-linejoin':'round'},s);}
+  const cur=el('line',{y1:m.t,y2:H-m.b,stroke:'var(--ink)','stroke-width':1},s);
+  const dy=el('circle',{r:4,fill:'var(--y)',stroke:'var(--surface)','stroke-width':2},s);const dk=el('circle',{r:4,fill:'var(--k)',stroke:'var(--surface)','stroke-width':2},s);
+  const hit=el('rect',{x:m.l,y:0,width:W-m.l-m.r,height:H,fill:'transparent',style:'cursor:pointer'},s);
+  const idx=e=>{const r=s.getBoundingClientRect();const px=(e.clientX-r.left)/r.width*W;return Math.round(Math.max(0,Math.min(n-1,(px-m.l)/(W-m.l-m.r)*(n-1))));};
+  hit.addEventListener('pointermove',e=>{const i=idx(e);showTip(`<b>${R.turns[i].turn}턴</b><br>연세 ${R.scores[i][0]} · 고려 ${R.scores[i][1]}`,e);});
+  hit.addEventListener('pointerleave',hideTip);
+  hit.addEventListener('click',e=>{stop();ti=idx(e);show();});
+  sc={cur,dy,dk,X,Y};
+}
+function moveCursor(){if(!sc.cur)return;const x=sc.X(ti);sc.cur.setAttribute('x1',x);sc.cur.setAttribute('x2',x);sc.dy.setAttribute('cx',x);sc.dy.setAttribute('cy',sc.Y(R.scores[ti][0]));sc.dk.setAttribute('cx',x);sc.dk.setAttribute('cy',sc.Y(R.scores[ti][1]));}
+const PLAY='<path d="M3 1.5v11l9-5.5z" fill="currentColor"/>',PAUSE='<rect x="2.5" y="2" width="3" height="10" fill="currentColor"/><rect x="8.5" y="2" width="3" height="10" fill="currentColor"/>';
+function stop(){if(timer){clearInterval(timer);timer=null;}$('#playIcon').innerHTML=PLAY;$('#bPlay').setAttribute('aria-label','재생');}
+function play(){if(ti>=R.turns.length-1)ti=0;$('#playIcon').innerHTML=PAUSE;$('#bPlay').setAttribute('aria-label','일시정지');
+  timer=setInterval(()=>{if(ti>=R.turns.length-1){stop();return;}ti++;show();},+$('#rpSpeed').value);}
+$('#bPlay').onclick=()=>timer?stop():play();
+$('#bPrev').onclick=()=>{stop();ti=Math.max(0,ti-1);show();};
+$('#bNext').onclick=()=>{stop();ti=Math.min(R.turns.length-1,ti+1);show();};
+$('#bFirst').onclick=()=>{stop();ti=0;show();};
+$('#rpSpeed').onchange=()=>{if(timer){stop();play();}};
+rng.oninput=()=>{stop();ti=+rng.value;show();};
+cv.addEventListener('pointermove',e=>{const r=cv.getBoundingClientRect();const x=Math.floor((e.clientX-r.left)/r.width*15),y=Math.floor((e.clientY-r.top)/r.height*15);if(x<0||y<0||x>14||y>14)return hideTip();showTip(cellInfo(R,ti,x,y),e);});
+cv.addEventListener('pointerleave',hideTip);
+cv.addEventListener('keydown',e=>{if(e.key==='ArrowRight')$('#bNext').click();if(e.key==='ArrowLeft')$('#bPrev').click();});
+showSample();
+
+function redrawAll(){heroDraw();show();}
+let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(redrawAll,120);});
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',redrawAll);
+new MutationObserver(redrawAll).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+document.fonts&&document.fonts.ready.then(redrawAll);
+})();
+</script>
+
+</body></html>
